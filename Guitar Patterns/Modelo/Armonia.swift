@@ -112,15 +112,16 @@ class Armonia {
     
     func definirIntervalosSextaMayor(){
         let incrementos = [Incremento(cuerda: 2, traste: -1), Incremento(cuerda: 4, traste: 2)]
-        let intervaloSeptimaDesdeSexta = Intervalo(origen: PosicionTraste(cuerda: 6), tipo: .septimamenor, posiciones: incrementos, distancia: 10)
-        let intervaloSeptimaDesdeQuinta = Intervalo(origen: PosicionTraste(cuerda: 5), tipo: .septimamenor, posiciones: [incrementos[0]], distancia: 10)
+        let intervaloSextaDesdeSexta = Intervalo(origen: PosicionTraste(cuerda: 6), tipo: .sextamayor, posiciones: incrementos, distancia: 9)
+        let intervaloSextaDesdeQuinta = Intervalo(origen: PosicionTraste(cuerda: 5), tipo: .septimamenor, posiciones: [incrementos[0]], distancia: 9)
+      // Aquí me quedo revisando intervalos
         let incremento4y3 = Incremento(cuerda: 2, traste: 1)
-        let intervaloSeptimaDesdeCuarta = Intervalo(origen: PosicionTraste(cuerda: 4), tipo: .septimamenor, posiciones: [incremento4y3], distancia: 10)
-        let intervaloSeptimaDesdeTercera = Intervalo(origen: PosicionTraste(cuerda: 3), tipo: .septimamenor, posiciones: [incremento4y3], distancia: 10)
-        intervalos.append(intervaloSeptimaDesdeSexta)
-        intervalos.append(intervaloSeptimaDesdeQuinta)
-        intervalos.append(intervaloSeptimaDesdeCuarta)
-        intervalos.append(intervaloSeptimaDesdeTercera)
+        let intervaloSextaDesdeCuarta = Intervalo(origen: PosicionTraste(cuerda: 4), tipo: .septimamenor, posiciones: [incremento4y3], distancia: 9)
+        let intervaloSextaDesdeTercera = Intervalo(origen: PosicionTraste(cuerda: 3), tipo: .septimamenor, posiciones: [incremento4y3], distancia: 9)
+        intervalos.append(intervaloSextaDesdeSexta)
+        intervalos.append(intervaloSextaDesdeQuinta)
+        intervalos.append(intervaloSextaDesdeCuarta)
+        intervalos.append(intervaloSextaDesdeTercera)
     }
     
     func definirIntervalosSextaMenor(){

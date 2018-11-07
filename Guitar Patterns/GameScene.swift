@@ -13,7 +13,7 @@ import GameplayKit
 class GameScene: SKScene {
     var guitarra: GuitarraGrafica!  // parte gráfica del mástil
     var mastil: Mastil!             // parte lógica del mástil
-
+    
    
     override func didMove(to view: SKView) {
         backgroundColor = Colores.background

@@ -11,8 +11,10 @@ import GameplayKit
 
 enum FasesJuego {
     case mostrandoInstrucciones
+    case realizarDemo
     case jugando
 }
+
 class GameScene: SKScene {
     var armonia: Armonia!
     var guitarra: GuitarraGrafica!  // parte gráfica del mástil
@@ -38,11 +40,12 @@ class GameScene: SKScene {
         case .mostrandoInstrucciones:
             view?.isUserInteractionEnabled = false
             // Mostrar instrucciones ejercicio. Wait
-            dibujarTablonInstrucciones(ejercicio.instrucciones!, yPasarFase: .jugando)
+            dibujarTablonInstrucciones(ejercicio.instrucciones!, yPasarFase: .realizarDemo)
+          
+        case .realizarDemo:
+          
         case .jugando:
           dibujarIndicacionesPaso(indicaciones: "hola")
-          
-            break
         }
         
             
@@ -88,7 +91,21 @@ class GameScene: SKScene {
             }
         }
     }
-    
+  
+  func dibujarIntervalo(_ intervalo: Intervalo) {
+    let x = intervalo.origen.cuerda ?? 6
+    let y = intervalo.origen.traste ?? 3
+    guitarra.drawNoteAt(point: guitarra.matrizPositionNotes[x][y], withText: "T")
+    for incremento in intervalo.posiciones {
+      if let nuevaPosicion = intervalo.origen.incrementar(incremento) {
+        let x = nuevaPosicion.cuerda!
+        let y = nuevaPosicion.traste!
+        guitarra.drawNoteAt(point: guitarra.matrizPositionNotes[x][y])
+      }
+    }
+  }
+  
+  
     func dibujarTablonInstrucciones(_ instrucciones: String, yPasarFase fase: FasesJuego) {
         let tablon = SKShapeNode(rectOf: CGSize(width: size.width - Medidas.marginSpace * 2, height: size.height / 2), cornerRadius: 0.5)
         tablon.fillColor = SKColor.gray
@@ -126,4 +143,16 @@ class GameScene: SKScene {
     texto.position = CGPoint(x:view!.frame.width / 2, y: view!.frame.height - Medidas.topSpace / 2)
     addChild(texto)
   }
+  
+  func realizarPasos(ejercicio: Ejercicio) {
+    guard ejercicio.pasos != nil else {
+      return
+    }
+    for (indicacion,paso) in ejercicio.pasos! {
+      dibujarIndicacionesPaso(indicaciones: indicacion)
+      ejecutarPaso(paso)
+    }
+  }
+  
+  func ejecutarPaso(paso: )
 }

@@ -19,6 +19,7 @@ enum TipoAccion {
   case mostrarFlecha
 }
 
+typealias TipoPaso = (String, TipoAccion)
 class Ejercicio {
   var nombre: String?
   var instrucciones: String?
@@ -26,7 +27,7 @@ class Ejercicio {
   var enunciado: String?
   var ejercicio: Intervalo? // de momento vamos a probar con ejercicios de intervalo
   var tiempoLimite: TimeInterval?
-  var pasos: [(String, TipoAccion)]?
+  var pasos: [TipoPaso]?
   
   init() {
     

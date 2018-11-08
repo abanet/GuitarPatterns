@@ -17,7 +17,7 @@
 		D3036DE02190AFC900E99120 /* Constantes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3036DDF2190AFC900E99120 /* Constantes.swift */; };
 		D31F86392192EAC600E5346E /* Armonia.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31F86382192EAC600E5346E /* Armonia.swift */; };
 		D3F9C0292191AE6400A349F7 /* Mastil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F9C0282191AE6400A349F7 /* Mastil.swift */; };
-		D3F9C02D2191B02900A349F7 /* Graficos.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F9C02C2191B02900A349F7 /* Graficos.swift */; };
+		D3F9C02D2191B02900A349F7 /* GuitarraGrafica.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F9C02C2191B02900A349F7 /* GuitarraGrafica.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +33,7 @@
 		D3036DDF2190AFC900E99120 /* Constantes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constantes.swift; sourceTree = "<group>"; };
 		D31F86382192EAC600E5346E /* Armonia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Armonia.swift; sourceTree = "<group>"; };
 		D3F9C0282191AE6400A349F7 /* Mastil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mastil.swift; sourceTree = "<group>"; };
-		D3F9C02C2191B02900A349F7 /* Graficos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graficos.swift; sourceTree = "<group>"; };
+		D3F9C02C2191B02900A349F7 /* GuitarraGrafica.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuitarraGrafica.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +101,7 @@
 		D3F9C02B2191B00C00A349F7 /* Vistas */ = {
 			isa = PBXGroup;
 			children = (
-				D3F9C02C2191B02900A349F7 /* Graficos.swift */,
+				D3F9C02C2191B02900A349F7 /* GuitarraGrafica.swift */,
 			);
 			path = Vistas;
 			sourceTree = "<group>";
@@ -182,7 +182,7 @@
 				D3036DD0219099CA00E99120 /* GameViewController.swift in Sources */,
 				D3036DC8219099CA00E99120 /* AppDelegate.swift in Sources */,
 				D3036DE02190AFC900E99120 /* Constantes.swift in Sources */,
-				D3F9C02D2191B02900A349F7 /* Graficos.swift in Sources */,
+				D3F9C02D2191B02900A349F7 /* GuitarraGrafica.swift in Sources */,
 				D3F9C0292191AE6400A349F7 /* Mastil.swift in Sources */,
 				C0CA1788219359CE00814C0C /* Ejercicio.swift in Sources */,
 			);

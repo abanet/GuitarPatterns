@@ -62,7 +62,14 @@ class GuitarraGrafica: SKNode {
         drawNeck()
         drawFrets()
     }
+  
+  
+  func dibujarIntervalo(_ intervalo: Intervalo, conPausa: TimeInterval) {
     
+  }
+  
+  // MARK: Funciones para dibujar notas
+  
     func drawAllNotes() {
         for n in 0..<Medidas.numStrings {
             for m in 0..<Medidas.numTrastes {

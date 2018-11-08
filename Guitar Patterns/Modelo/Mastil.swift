@@ -5,6 +5,7 @@
 //  Created by Alberto Banet Masa on 06/11/2018.
 //  Copyright © 2018 Alberto Banet Masa. All rights reserved.
 //
+//  El mástil es la parte lógica de la guitarra gráfica
 
 import Foundation
 

@@ -17,6 +17,7 @@ class GameScene: SKScene {
     var armonia: Armonia!
     var guitarra: GuitarraGrafica!  // parte gráfica del mástil
     var mastil: Mastil!             // parte lógica del mástil
+    let ddbb = DatabaseEjercicios()
     var ejercicio: Ejercicio!
     
     var fase: FasesJuego = .mostrandoInstrucciones
@@ -25,10 +26,9 @@ class GameScene: SKScene {
         backgroundColor = Colores.background
         iniciarGuitarra()
         dibujarMastil()
+      addChild(guitarra.drawArrow(from: CGPoint(x:50, y:50), to: CGPoint(x:100, y:100), tailWidth: 1, headWidth: 10, headLength: 20))
         armonia = Armonia()
-        ejercicio = Ejercicio(instrucciones: "Vas a aprender el intervalo de octava.",
-                              enunciado: "Ahora pulsa tu en la octava de la nota propuesta",
-                              ejercicio: armonia.intervalos[0])
+        ejercicio = ddbb.ejercicios[0] // nuestro único ejercicio por ahora!
         
     }
     
@@ -38,8 +38,10 @@ class GameScene: SKScene {
         case .mostrandoInstrucciones:
             view?.isUserInteractionEnabled = false
             // Mostrar instrucciones ejercicio. Wait
-            dibujarTablonInstrucciones(ejercicio.instrucciones, yPasarFase: .jugando)
+            dibujarTablonInstrucciones(ejercicio.instrucciones!, yPasarFase: .jugando)
         case .jugando:
+          dibujarIndicacionesPaso(indicaciones: "hola")
+          
             break
         }
         
@@ -87,14 +89,14 @@ class GameScene: SKScene {
         }
     }
     
-    func dibujarTablonInstrucciones(_ texto: String, yPasarFase fase: FasesJuego) {
+    func dibujarTablonInstrucciones(_ instrucciones: String, yPasarFase fase: FasesJuego) {
         let tablon = SKShapeNode(rectOf: CGSize(width: size.width - Medidas.marginSpace * 2, height: size.height / 2), cornerRadius: 0.5)
         tablon.fillColor = SKColor.gray
         tablon.position = view!.center
         tablon.zPosition = 100
         
         let texto = SKLabelNode(fontNamed: "Chalkduster")
-        texto.text = texto
+        texto.text = instrucciones
         texto.fontSize = 25
         texto.preferredMaxLayoutWidth = size.width - Medidas.marginSpace * 3
         texto.numberOfLines = 0
@@ -110,6 +112,18 @@ class GameScene: SKScene {
         }
         let actionRemove = SKAction.removeFromParent()
         tablon.run(SKAction.sequence([actionWait, actionEnableInteraction, actionRemove]))
-        
+     
     }
+  
+  // Dibuja las instrucciones de cada paso en la parte superior de la pantalla
+  func dibujarIndicacionesPaso(indicaciones:String) {
+    let texto = SKLabelNode(text: indicaciones)
+    texto.fontSize = 18
+    texto.preferredMaxLayoutWidth = size.width - Medidas.marginSpace
+    texto.numberOfLines = 0
+    texto.verticalAlignmentMode = .center
+    texto.horizontalAlignmentMode = .center
+    texto.position = CGPoint(x:view!.frame.width / 2, y: view!.frame.height - Medidas.topSpace / 2)
+    addChild(texto)
+  }
 }

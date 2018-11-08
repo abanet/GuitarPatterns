@@ -58,6 +58,7 @@ struct Patron {
  */
 
 class Armonia {
+  // TODO: mejor almacenarlo en un diccionario
     var intervalos: [Intervalo] = [Intervalo]()
     
     init() {

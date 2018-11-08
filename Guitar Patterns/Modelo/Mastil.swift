@@ -8,6 +8,8 @@
 
 import Foundation
 
+typealias TipoPosicionCuerda = Int
+typealias TipoPosicionTraste = Int
 
 enum TipoTraste {
     case vacio
@@ -54,8 +56,8 @@ class Mastil {
     init() {
         createEmptyMastil()
         let nota = TipoTraste.nota("C#")
-        drawIntervalFrom(inicial: PosicionTraste(cuerda: 6, traste: 2), interval: armonia.intervalos[0])
-        //writeNote(nota, inString: 6, atFret: 2)
+        //drawIntervalFrom(inicial: PosicionTraste(cuerda: 6, traste: 2), interval: armonia.intervalos[0])
+        writeNote(nota, inString: 1, atFret: 6)
     }
     
     // Crea el array definitorio del mástil con todos los trastes vacios
@@ -68,7 +70,6 @@ class Mastil {
             }
             trastes.append(oneString)
         }
-        trastes[5][3] = TipoTraste.vacio
     }
     
     //

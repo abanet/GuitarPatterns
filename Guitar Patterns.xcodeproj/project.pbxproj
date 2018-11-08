@@ -47,6 +47,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C08F38CC2194BC320027F8FB /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		D3036DBB219099CA00E99120 = {
 			isa = PBXGroup;
 			children = (
@@ -66,6 +73,7 @@
 		D3036DC6219099CA00E99120 /* Guitar Patterns */ = {
 			isa = PBXGroup;
 			children = (
+				C08F38CC2194BC320027F8FB /* Helpers */,
 				D3F9C02B2191B00C00A349F7 /* Vistas */,
 				D3F9C02A2191B00200A349F7 /* Modelo */,
 				D3036DC7219099CA00E99120 /* AppDelegate.swift */,

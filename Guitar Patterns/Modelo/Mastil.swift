@@ -12,6 +12,9 @@ import Foundation
 typealias TipoPosicionCuerda = Int
 typealias TipoPosicionTraste = Int
 
+/**
+ * case vacio, blanco, nota(String), relacion(Int)
+ */
 enum TipoTraste {
     case vacio
     case blanco
@@ -19,6 +22,10 @@ enum TipoTraste {
     case relacion(Int) // igual no hace falta y los tratamos como notas
 }
 
+/**
+ Almacena una posición de traste en formato cuerda, traste.
+ Incluye funciones matemáticas para el cálculo de trastes a partir de la suma de intervalos
+ */
 struct PosicionTraste {
     var cuerda: Int?
     var traste: Int?
@@ -42,6 +49,7 @@ struct PosicionTraste {
         traste = traste! + inc.traste
     }
     
+    // Dado un traste y un incremento en cuerdas y trastes, la función calcula el traste resultante.
     func incrementar (_ inc: Incremento) -> PosicionTraste? {
         guard cuerda != nil, traste != nil else { return nil }
         let nuevaPosicion = PosicionTraste(cuerda: cuerda! + inc.cuerda, traste: traste! + inc.traste)
@@ -56,9 +64,9 @@ class Mastil {
     
     init() {
         createEmptyMastil()
-        let nota = TipoTraste.nota("C#")
-        //drawIntervalFrom(inicial: PosicionTraste(cuerda: 6, traste: 2), interval: armonia.intervalos[0])
-        writeNote(nota, inString: 1, atFret: 6)
+       // let nota = TipoTraste.nota("C#")
+       // drawIntervalFrom(inicial: PosicionTraste(cuerda: 6, traste: 2), interval: armonia.intervalos[0])
+       // writeNote(nota, inString: 1, atFret: 6)
     }
     
     // Crea el array definitorio del mástil con todos los trastes vacios
@@ -110,9 +118,6 @@ class Mastil {
         trastes[x][y] = note
     }
     
-    // Dadas las coordenadas entendidas como guitarra las traduce a las usadas en el array
-    func coordinatesFromGuitarToArray(string: Int, fret: Int) -> (Int, Int) {
-        return (abs(string - Medidas.numStrings), fret - 1)
-    }
+    
     
 }

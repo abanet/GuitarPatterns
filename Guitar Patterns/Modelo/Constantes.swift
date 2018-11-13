@@ -18,13 +18,32 @@ struct Medidas {
     // Strings
     static let numStrings = 6 // guitarra
     static let numTrastes = 7
-    static let widthString: CGFloat = 3
+    static let widthString: CGFloat = 3.0
+    
+    // Flechas
+    static let colaFlecha = 1
+    static let cabezaFlecha = 10
+    static let longitudCabezaFecha = 20
+    
+    // caminos
+    static let anchoCamino: CGFloat = 6.0
     
 }
 
 struct Colores {
     static let strings = SKColor.black
     static let noteStroke = SKColor.black
-    static let noteFill = SKColor.white
+    static let noteFill = SKColor.lightGray
+    static let noteFillResaltada = SKColor.orange
     static let background = SKColor.lightGray
+    static let indicaciones = SKColor.white
+    static let camino = SKColor.yellow
+}
+
+struct Pausas {
+    static let aparicionNota: TimeInterval = 0.5
+}
+
+struct EstilosDefault {
+    static let notas = EstiloNota(relleno: Colores.noteFill, trazo: Colores.noteStroke, anchoLinea: 1.0)
 }

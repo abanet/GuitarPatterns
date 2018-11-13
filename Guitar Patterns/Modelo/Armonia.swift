@@ -20,12 +20,29 @@ struct Incremento {
     let traste: Int
 }
 
+/**
+    Define un intervalo musical
+ 
+ Parametros:
+    - origen: PosicionTraste
+    - tipo: TipoIntervalo
+    - posiciones: [Incremento] -> define todos los incrementos que crean el intervalo
+    - distancia: Int -> número de semitonos.
+ */
 struct Intervalo {
-    let origen: PosicionTraste
-    let tipo: TipoIntervalo
-    let posiciones: [Incremento] // las posibilidades de obtener en la guitarra los intervalos adyacentes
-    let distancia: Int // el número de semitonos. De momento no lo usamos
+    var origen: PosicionTraste
+    var tipo: TipoIntervalo
+    var posiciones: [Incremento] // las posibilidades de obtener en la guitarra los intervalos adyacentes
+    var distancia: Int // el número de semitonos. De momento no lo usamos
+    var notaOrigen: String? // Nombre de la nota origen
+    var notaFinal : String? // Nombre de la nota que termina el intervalo
     
+    init(origen: PosicionTraste, tipo: TipoIntervalo, posiciones: [Incremento], distancia: Int) {
+        self.origen = origen
+        self.tipo = tipo
+        self.posiciones = posiciones
+        self.distancia = distancia   
+    }
 }
 
 enum TipoIntervalo {
@@ -59,7 +76,7 @@ struct Patron {
 
 class Armonia {
   // TODO: mejor almacenarlo en un diccionario
-    var intervalos: [Intervalo] = [Intervalo]()
+    var intervalos: [TipoIntervalo:[Intervalo]] = [TipoIntervalo:[Intervalo]]()
     
     init() {
         definirIntervalosOctava()
@@ -77,10 +94,7 @@ class Armonia {
         let incremento4y3 = Incremento(cuerda: 2, traste: 3)
         let intervaloOctavaDesdeCuarta = Intervalo(origen: PosicionTraste(cuerda: 4), tipo: TipoIntervalo.octavajusta, posiciones: [incremento4y3], distancia: 12)
         let intervaloOctavaDesdeTercera = Intervalo(origen: PosicionTraste(cuerda: 3), tipo: TipoIntervalo.octavajusta, posiciones: [incremento4y3], distancia: 12)
-        intervalos.append(intervaloOctavaDesdeSexta)
-        intervalos.append(intervaloOctavaDesdeQuinta)
-        intervalos.append(intervaloOctavaDesdeCuarta)
-        intervalos.append(intervaloOctavaDesdeTercera)
+        intervalos[.octavajusta] = [intervaloOctavaDesdeSexta, intervaloOctavaDesdeQuinta, intervaloOctavaDesdeCuarta, intervaloOctavaDesdeTercera]
     }
     
     func definirIntervalosSeptimaMayor(){
@@ -91,10 +105,7 @@ class Armonia {
         let incremento4y3 = Incremento(cuerda: 2, traste: 2)
         let intervaloSeptimaDesdeCuarta = Intervalo(origen: PosicionTraste(cuerda: 4), tipo: .septimamayor, posiciones: [incremento4y3], distancia: 11)
         let intervaloSeptimaDesdeTercera = Intervalo(origen: PosicionTraste(cuerda: 3), tipo: .septimamayor, posiciones: [incremento4y3], distancia: 11)
-        intervalos.append(intervaloSeptimaDesdeSexta)
-        intervalos.append(intervaloSeptimaDesdeQuinta)
-        intervalos.append(intervaloSeptimaDesdeCuarta)
-        intervalos.append(intervaloSeptimaDesdeTercera)
+        intervalos[.septimamayor] = [intervaloSeptimaDesdeSexta, intervaloSeptimaDesdeQuinta, intervaloSeptimaDesdeCuarta, intervaloSeptimaDesdeTercera]
     }
     
     func definirIntervalosSeptimaMenor(){
@@ -105,10 +116,7 @@ class Armonia {
         let incremento4y3 = Incremento(cuerda: 2, traste: 1)
         let intervaloSeptimaDesdeCuarta = Intervalo(origen: PosicionTraste(cuerda: 4), tipo: .septimamenor, posiciones: [incremento4y3], distancia: 10)
         let intervaloSeptimaDesdeTercera = Intervalo(origen: PosicionTraste(cuerda: 3), tipo: .septimamenor, posiciones: [incremento4y3], distancia: 10)
-        intervalos.append(intervaloSeptimaDesdeSexta)
-        intervalos.append(intervaloSeptimaDesdeQuinta)
-        intervalos.append(intervaloSeptimaDesdeCuarta)
-        intervalos.append(intervaloSeptimaDesdeTercera)
+        intervalos[.septimamenor] = [intervaloSeptimaDesdeSexta, intervaloSeptimaDesdeQuinta, intervaloSeptimaDesdeCuarta, intervaloSeptimaDesdeTercera]
     }
     
     func definirIntervalosSextaMayor(){
@@ -119,10 +127,7 @@ class Armonia {
         let incremento4y3 = Incremento(cuerda: 2, traste: 1)
         let intervaloSextaDesdeCuarta = Intervalo(origen: PosicionTraste(cuerda: 4), tipo: .septimamenor, posiciones: [incremento4y3], distancia: 9)
         let intervaloSextaDesdeTercera = Intervalo(origen: PosicionTraste(cuerda: 3), tipo: .septimamenor, posiciones: [incremento4y3], distancia: 9)
-        intervalos.append(intervaloSextaDesdeSexta)
-        intervalos.append(intervaloSextaDesdeQuinta)
-        intervalos.append(intervaloSextaDesdeCuarta)
-        intervalos.append(intervaloSextaDesdeTercera)
+        intervalos[.sextamayor] = [intervaloSextaDesdeSexta, intervaloSextaDesdeQuinta, intervaloSextaDesdeCuarta, intervaloSextaDesdeTercera]
     }
     
     func definirIntervalosSextaMenor(){

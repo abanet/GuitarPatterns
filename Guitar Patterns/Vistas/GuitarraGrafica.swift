@@ -10,6 +10,18 @@ import Foundation
 import CoreGraphics
 import SpriteKit
 
+struct EstiloNota {
+    var colorRelleno: SKColor
+    var colorTrazo: SKColor
+    var anchoLinea: CGFloat
+    
+    init(relleno: SKColor, trazo: SKColor, anchoLinea: CGFloat) {
+        self.colorRelleno = relleno
+        self.colorTrazo = trazo
+        self.anchoLinea = anchoLinea
+    }
+}
+
 class GuitarraGrafica: SKNode {
     
     var size: CGSize
@@ -62,14 +74,64 @@ class GuitarraGrafica: SKNode {
         drawNeck()
         drawFrets()
     }
-  
-  
-  func dibujarIntervalo(_ intervalo: Intervalo, conPausa: TimeInterval) {
     
-  }
-  
-  // MARK: Funciones para dibujar notas
-  
+    
+    /**
+     Dibuja las dos notas del intervalo con una pausa intermedia.
+     */
+    func dibujarIntervalo(_ intervalo: Intervalo, notaOrigen: String, notaFinal: String, conPausa: TimeInterval) {
+        guard let cuerda = intervalo.origen.cuerda, let traste = intervalo.origen.traste else {
+            return
+        }
+        
+        // Calcular segunda nota
+        if let nuevaNota = intervalo.origen.incrementar(intervalo.posiciones[0]),
+            let nuevaCuerda = nuevaNota.cuerda,
+            let nuevoTraste = nuevaNota.traste {
+            
+            let nota1 = createNodeNote(notaOrigen, inString: cuerda, atFret: traste, alpha: 0.0)
+            let nota2 = createNodeNote(notaFinal, inString: nuevaCuerda, atFret: nuevoTraste, alpha: 0.0)
+            nota1.fillColor = Colores.noteFillResaltada
+            nota2.fillColor = Colores.noteFillResaltada
+            
+            let aparecer = SKAction.fadeAlpha(to: 1.0, duration: Pausas.aparicionNota)
+            let desaparecer = SKAction.fadeAlpha(to: 0.0, duration: Pausas.aparicionNota)
+            let actionWait  = SKAction.wait(forDuration: 1.0)
+            
+            if let camino = dibujarCaminoIntervalo(intervalo) {
+                camino.alpha = 0
+                addChild(nota1)
+                addChild(nota2)
+                addChild(camino)
+                nota1.run(SKAction.sequence([aparecer, actionWait])) {
+                    camino.run(SKAction.sequence([aparecer, actionWait, desaparecer]))
+                    nota2.run(SKAction.sequence([aparecer, actionWait]))
+                }
+                
+            }
+        }
+    }
+    
+    
+    // MARK: Funciones de escritura con parámetros de guitarra
+    // Aquí la posición pasada por parámetro se dará desde la perspectiva de la guitarra
+    // Dibuja una nota de la que se indica la cuerda y el traste en el mástil de la guitarra
+    func writeNote(_ note: String, inString string:Int, atFret fret: Int, timeToAppear: TimeInterval = Pausas.aparicionNota, fillColor: SKColor = Colores.noteFill) {
+        let (x,y) = coordinatesFromGuitarToArray(string: string, fret: fret)
+        let punto = matrizPositionNotes[x][y]
+        drawNoteAt(point: punto, withText: note, timeToAppear: timeToAppear, fillColor: fillColor)
+        
+    }
+    
+    func createNodeNote(_ note: String, inString string: Int, atFret fret: Int, alpha: CGFloat = 1.0) -> SKShapeNode {
+        let (x,y) = coordinatesFromGuitarToArray(string: string, fret: fret)
+        let punto = matrizPositionNotes[x][y]
+        return createNodeNoteAt(point: punto, withText: note, alpha: alpha)
+    }
+    
+    
+    // MARK: Funciones para dibujar notas
+    
     func drawAllNotes() {
         for n in 0..<Medidas.numStrings {
             for m in 0..<Medidas.numTrastes {
@@ -82,8 +144,19 @@ class GuitarraGrafica: SKNode {
         addChild(drawCircleAt(point: point, withRadius: radius))
     }
     
-    func drawNoteAt(point: CGPoint, withText text: String) {
-        let nodeNote = drawCircleAt(point: point, withRadius: radius)
+    // Dibuja la nota en el punto dado
+    func drawNoteAt(point: CGPoint, withText text: String, alpha: CGFloat = 1.0, timeToAppear: TimeInterval = Pausas.aparicionNota, fillColor: SKColor = Colores.noteFill) {
+        let node = createNodeNoteAt(point: point, withText: text, fillColor: fillColor)
+        let action = SKAction.fadeAlpha(to: alpha, duration: timeToAppear)
+        addChild(node)
+        node.run(action)
+    }
+    
+    // Devuelve un nodo con la nota requerida y el alpha indicado
+    func createNodeNoteAt(point: CGPoint, withText text: String, alpha: CGFloat = 0.0, fillColor: SKColor = Colores.noteFill) -> SKShapeNode {
+        let nodeNote = drawCircleAt(point: .zero, withRadius: radius)
+        nodeNote.fillColor = fillColor
+        nodeNote.position = point
         //let textLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
         let textLabel = SKLabelNode(fontNamed: "AvenirNext-Regular")
         textLabel.text = text
@@ -91,15 +164,17 @@ class GuitarraGrafica: SKNode {
         textLabel.fontSize = radius * 1.2 //factor de corrección de tamaño aplicado
         textLabel.verticalAlignmentMode = .center
         textLabel.horizontalAlignmentMode = .center
-        textLabel.position = point
-      textLabel.alpha = 0
-      nodeNote.alpha = 0
-        addChild(textLabel)
-        addChild(nodeNote)
-      let action = SKAction.fadeAlpha(to: 1.0, duration: 2.0)
-      textLabel.run(action)
-      nodeNote.run(action)
+        textLabel.position = .zero
+        textLabel.alpha = 1.0
+        nodeNote.alpha = alpha
+        nodeNote.addChild(textLabel)
+        nodeNote.name = "nota"
+    
+        return nodeNote
     }
+    
+    
+    
     
     func calculateMatrizPositionNotes () {
         for posString in arrayPositionStrings {
@@ -133,6 +208,36 @@ class GuitarraGrafica: SKNode {
         }
     }
     
+    
+    func dibujarCaminoIntervalo (_ intervalo: Intervalo) -> SKShapeNode? {
+        guard let cuerda = intervalo.origen.cuerda, let traste = intervalo.origen.traste else {
+            return nil
+        }
+        
+        // Calcular segunda nota
+        if let nuevaNota = intervalo.origen.incrementar(intervalo.posiciones[0]),
+            let nuevaCuerda = nuevaNota.cuerda,
+            let nuevoTraste = nuevaNota.traste {
+            
+            let (x1, y1) = coordinatesFromGuitarToArray(string: cuerda, fret: traste)
+            let (x2, y2) = coordinatesFromGuitarToArray(string: nuevaCuerda, fret: nuevoTraste)
+            let punto1 = matrizPositionNotes[x1][y1] + CGPoint(x: radius, y: 0)
+            let punto2 = matrizPositionNotes[x1][y1] + CGPoint(x: matrizPositionNotes[x2][y2].x - matrizPositionNotes[x1][y1].x, y: 0)
+            // desplazamiento vertical
+            let punto3 = matrizPositionNotes[x2][y2] + CGPoint(x: 0, y: -radius)
+            let line = SKShapeNode()
+            let path = CGMutablePath()
+            path.addLines(between: [punto1, punto2, punto3])
+            line.path = path
+            line.strokeColor = Colores.camino
+            line.lineWidth = Medidas.anchoCamino
+            line.name = "camino"
+            return line
+        } else {
+            return nil
+        }
+    }
+    
     func drawLine(from: CGPoint, to: CGPoint) -> SKShapeNode {
         let line = SKShapeNode()
         let path = CGMutablePath()
@@ -143,45 +248,56 @@ class GuitarraGrafica: SKNode {
         return line
     }
     
-    func drawCircleAt(point: CGPoint, withRadius radius: CGFloat) -> SKShapeNode {
+    func drawCircleAt(point: CGPoint, withRadius radius: CGFloat, withEstilo estilo: EstiloNota = EstilosDefault.notas) -> SKShapeNode {
         let path = CGMutablePath()
         path.addArc(center: point, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
         let circle = SKShapeNode(path: path)
         circle.isUserInteractionEnabled = false
         circle.name = "circle"
-        circle.lineWidth = 1
-        circle.fillColor = Colores.background
-        circle.strokeColor = Colores.noteStroke
+        circle.lineWidth = estilo.anchoLinea
+        circle.fillColor = estilo.colorRelleno
+        circle.strokeColor = estilo.colorTrazo
         circle.glowWidth = 0.5
         return circle
     }
-  
-  // Dibuja una flecha
-  func drawArrow(from start: CGPoint, to end: CGPoint, tailWidth: CGFloat, headWidth: CGFloat, headLength: CGFloat) -> SKShapeNode {
-      let length = hypot(end.x - start.x, end.y - start.y)
-      let tailLength = length - headLength
-      
-      func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { return CGPoint(x: x, y: y) }
-      let points: [CGPoint] = [
-        p(0, tailWidth / 2),
-        p(tailLength, tailWidth / 2),
-        p(tailLength, headWidth / 2),
-        p(length, 0),
-        p(tailLength, -headWidth / 2),
-        p(tailLength, -tailWidth / 2),
-        p(0, -tailWidth / 2)
-      ]
-      
-      let cosine = (end.x - start.x) / length
-      let sine = (end.y - start.y) / length
-      let transform = CGAffineTransform(a: cosine, b: sine, c: -sine, d: cosine, tx: start.x, ty: start.y)
-      
-      let path = CGMutablePath()
-      path.addLines(between: points, transform: transform)
-      path.closeSubpath()
-  
-    let arrow = SKShapeNode(path: path)
-    arrow.fillColor = .white
-    return arrow
-  }
+    
+    // Dibuja una flecha
+    func drawArrow(from start: CGPoint, to end: CGPoint, tailWidth: CGFloat = 1, headWidth: CGFloat = 10, headLength: CGFloat = 20, alpha: CGFloat = 1.0) -> SKShapeNode {
+        let length = hypot(end.x - start.x, end.y - start.y)
+        let tailLength = length - headLength
+        
+        func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { return CGPoint(x: x, y: y) }
+        let points: [CGPoint] = [
+            p(0, tailWidth / 2),
+            p(tailLength, tailWidth / 2),
+            p(tailLength, headWidth / 2),
+            p(length, 0),
+            p(tailLength, -headWidth / 2),
+            p(tailLength, -tailWidth / 2),
+            p(0, -tailWidth / 2)
+        ]
+        
+        let cosine = (end.x - start.x) / length
+        let sine = (end.y - start.y) / length
+        let transform = CGAffineTransform(a: cosine, b: sine, c: -sine, d: cosine, tx: start.x, ty: start.y)
+        
+        let path = CGMutablePath()
+        path.addLines(between: points, transform: transform)
+        path.closeSubpath()
+        
+        let arrow = SKShapeNode(path: path)
+        arrow.name = "arrow"
+        arrow.fillColor = .white
+        arrow.alpha = alpha
+        return arrow
+    }
+    
+    // Elimina todos los nodos "nota" y "camino" que estén dibujados en pantalla
+    func limpiarGuitarra() {
+        for child in children {
+            if child.name == "nota" || child.name == "camino" {
+                child.removeFromParent()
+            }
+        }
+    }
 }

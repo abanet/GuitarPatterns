@@ -38,6 +38,7 @@ struct Colores {
     static let background = SKColor.lightGray
     static let indicaciones = SKColor.white
     static let camino = SKColor.yellow
+    static let fallo = SKColor.darkGray
 }
 
 struct Pausas {

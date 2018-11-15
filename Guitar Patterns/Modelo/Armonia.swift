@@ -88,15 +88,16 @@ class Armonia {
     
     func definirIntervalosOctava() {
         // Intervalo de octava desde la sexta cuerda
-        let incrementos = [Incremento(cuerda: 2, traste: 2), Incremento(cuerda: 5, traste: 0)]
+        let incrementos = [Incremento(cuerda: -2, traste: 2), Incremento(cuerda: -5, traste: 0)]
         let intervaloOctavaDesdeSexta = Intervalo(origen: PosicionTraste(cuerda: 6), tipo: TipoIntervalo.octavajusta, posiciones: incrementos, distancia: 12)
         let intervaloOctavaDesdeQuinta = Intervalo(origen: PosicionTraste(cuerda: 5), tipo: TipoIntervalo.octavajusta, posiciones: [incrementos[0]], distancia: 12)
-        let incremento4y3 = Incremento(cuerda: 2, traste: 3)
+        let incremento4y3 = Incremento(cuerda: -2, traste: 3)
         let intervaloOctavaDesdeCuarta = Intervalo(origen: PosicionTraste(cuerda: 4), tipo: TipoIntervalo.octavajusta, posiciones: [incremento4y3], distancia: 12)
         let intervaloOctavaDesdeTercera = Intervalo(origen: PosicionTraste(cuerda: 3), tipo: TipoIntervalo.octavajusta, posiciones: [incremento4y3], distancia: 12)
         intervalos[.octavajusta] = [intervaloOctavaDesdeSexta, intervaloOctavaDesdeQuinta, intervaloOctavaDesdeCuarta, intervaloOctavaDesdeTercera]
     }
     
+    // TODO: redefinir intervalos para que los desplazamientos de cuerda sean negativos!!!
     func definirIntervalosSeptimaMayor(){
         let incrementos = [Incremento(cuerda: 2, traste: 1), Incremento(cuerda: 5, traste: -1), Incremento(cuerda: 0
             , traste: -1)]

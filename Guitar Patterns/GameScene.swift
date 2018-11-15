@@ -18,6 +18,7 @@ enum FasesJuego {
     case preparandoExamen
     case proponiendoPregunta
     case esperandoRespuesta
+    case preguntaRespondida
     case examenTerminado
 }
 
@@ -28,8 +29,9 @@ class GameScene: SKScene {
     let ddbb = DatabaseEjercicios()
     var ejercicio: Ejercicio!
     var siguientePaso = 0
+    var posicionNotaPropuesta: PosicionTraste = PosicionTraste(cuerda: 6, traste: 2) // por defecto una posición válida
     
-    var fase: FasesJuego = .mostrandoInstrucciones
+    var fase: FasesJuego = .preparandoExamen //.mostrandoInstrucciones
     
     var elapsedTime: Int = 0  // tiempo transcurrido
     var startTime: Int?         // tiempo en el que se comienza
@@ -68,6 +70,22 @@ class GameScene: SKScene {
         label.fontSize = 25
         return label
     }()
+    
+    var quedan: Int = 0 {
+        didSet {
+            labelQuedan.text = "Quedan: \(quedan)"
+        }
+    }
+    var aciertos: Int = 0 {
+        didSet {
+            labelAciertos.text = "Aciertos: \(aciertos)"
+        }
+    }
+    var fallos: Int = 0 {
+        didSet {
+            labelFallos.text = "Fallos: \(fallos)"
+        }
+    }
     
     override func didMove(to view: SKView) {
         backgroundColor = Colores.background
@@ -118,12 +136,17 @@ class GameScene: SKScene {
             limpiarMastil()
             if !existeTableroPuntuacion {
                 crearTableroPuntuacion(conTiempo: ejercicio.examen.tiempoLimite, numVeces: ejercicio.examen.veces)
+                self.quedan = ejercicio.examen.veces
+                
             }
             
         case .proponiendoPregunta:
             // Proponer comienzo de ejercicio
-            let posicionNotaPropuesta = ejercicio.examen.elegirNotaComienzo()
-            guitarra.writeNote("T", inString: posicionNotaPropuesta.cuerda!, atFret: posicionNotaPropuesta.traste!, timeToAppear: 0.1, fillColor: SKColor.orange)
+            view?.isUserInteractionEnabled = false
+            posicionNotaPropuesta = ejercicio.examen.elegirNotaComienzo()
+            guitarra.writeNote("T", inString: posicionNotaPropuesta.cuerda, atFret: posicionNotaPropuesta.traste, timeToAppear: 0.1, fillColor: SKColor.orange, withName: "notaAcertada")
+            fase = .esperandoRespuesta
+            
             
             
         case .esperandoRespuesta:
@@ -133,7 +156,15 @@ class GameScene: SKScene {
             // Si el tiempo se ha terminado fin del ejercicio
             let tiempoLimite = Int(ejercicio.examen.tiempoLimite)
             if tiempoLimite - elapsedTime <= 0 {
-                fase = .examenTerminado
+                //fase = .examenTerminado
+            }
+            
+        case .preguntaRespondida:
+            view?.isUserInteractionEnabled = false
+            guitarra.desvanecerMastil(tiempo: 0.5) {
+                self.view?.isUserInteractionEnabled = true
+                self.quedan = self.quedan - 1
+                self.fase = .proponiendoPregunta
             }
             
         case .examenTerminado:
@@ -155,8 +186,23 @@ class GameScene: SKScene {
             let touchPosition = touch.location(in: self)
             let touchedNodes = nodes(at: touchPosition)
             for node in touchedNodes {
-                if let mynode = node as? SKShapeNode, node.name == "circle" {
+                if let mynode = node as? ShapeNote, node.name == "nota" {
                     mynode.fillColor = .orange
+                    // Comprobar si es una respuesta correcta
+                    if fase == .esperandoRespuesta {
+                        if esRespuestaCorrecta(mynode.posicionEnMastil) {
+                            // actualizar marcador respuestas
+                            mynode.fillColor = Colores.noteFillResaltada
+                            mynode.name = "notaAcertada"
+                            self.aciertos = self.aciertos + 1
+                            fase = .preguntaRespondida
+                        } else {
+                            // actualizar marcador fallos
+                            mynode.fillColor = Colores.fallo
+                            mynode.name = "notaFallada"
+                            self.fallos = self.fallos + 1
+                        }
+                    }
                 }
             }
         } else{ // esperando que usuario pulse para seguir ejercicio
@@ -177,9 +223,13 @@ class GameScene: SKScene {
             for y in 0..<Medidas.numTrastes {
                 switch mastil.trastes[x][y] {
                 case .vacio:
-                    guitarra.drawNoteAt(point: guitarra.matrizPositionNotes[x][y])
+                    if let pos = coordinatesFromArrayToGuitar(x: x, y: y) {
+                        guitarra.drawShapeNoteAt(string: pos.cuerda, fret: pos.traste, withText: "", alpha: 1.0, timeToAppear: 0.1, fillColor: Colores.background)
+                    }
                 case let .nota(n):
-                    guitarra.drawNoteAt(point: guitarra.matrizPositionNotes[x][y], withText: n)
+                    if let pos = coordinatesFromArrayToGuitar(x: x, y: y) {
+                        guitarra.drawShapeNoteAt(string: pos.cuerda, fret: pos.traste, withText: n, alpha: 1.0, timeToAppear: 0.1, fillColor: Colores.background)
+                    }
                 default:
                     break
                 }
@@ -194,15 +244,19 @@ class GameScene: SKScene {
         dibujarMastil()
     }
     
+    
+    
     func dibujarIntervalo(_ intervalo: Intervalo) {
-        let x = intervalo.origen.cuerda ?? 6
-        let y = intervalo.origen.traste ?? 3
-        guitarra.drawNoteAt(point: guitarra.matrizPositionNotes[x][y], withText: "T")
+        let x = intervalo.origen.cuerda
+        let y = intervalo.origen.traste
+        guitarra.drawShapeNoteAt(string: x, fret: y, withText: "T")
+        //guitarra.drawNoteAt(point: guitarra.matrizPositionNotes[x][y], withText: "T")
         for incremento in intervalo.posiciones {
             if let nuevaPosicion = intervalo.origen.incrementar(incremento) {
-                let x = nuevaPosicion.cuerda!
-                let y = nuevaPosicion.traste!
-                guitarra.drawNoteAt(point: guitarra.matrizPositionNotes[x][y])
+                let x = nuevaPosicion.cuerda
+                let y = nuevaPosicion.traste
+                //guitarra.drawNoteAt(point: guitarra.matrizPositionNotes[x][y])
+                guitarra.drawShapeNoteAt(string: x, fret: y)
             }
         }
     }
@@ -304,4 +358,12 @@ class GameScene: SKScene {
     }
     
     
+    // Mal, se está comparando con la posición origen!!!
+    func esRespuestaCorrecta(_ respuesta: PosicionTraste?) -> Bool {
+        if respuesta != nil {
+            return respuesta == posicionNotaPropuesta.incrementar(ejercicio.ejercicio!.posiciones[0])
+        } else {
+            return false
+        }
+    }
 }

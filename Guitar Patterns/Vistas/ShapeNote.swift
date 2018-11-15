@@ -11,16 +11,15 @@ import SpriteKit
 
 class ShapeNote: SKShapeNode
 {
-    var cuerda: TipoPosicionCuerda?
-    var traste: TipoPosicionTraste?
-    
-    init(cuerda: TipoPosicionCuerda, traste: TipoPosicionTraste) {
-        self.cuerda = cuerda
-        self.traste = traste
-        super.init()
+    var posicionEnMastil: PosicionTraste = PosicionTraste(cuerda: 0, traste: 0)
+  
+    private(set) var selected: Bool = false {
+        didSet {
+            fillColor = selected ? Colores.noteFillResaltada : Colores.noteFill
+        }
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func setSelected(_ valor: Bool) {
+        selected = valor
     }
 }

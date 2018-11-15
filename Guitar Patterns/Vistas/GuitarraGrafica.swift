@@ -61,34 +61,61 @@ class GuitarraGrafica: SKNode {
     init(size:CGSize) {
         self.size = size
         super.init()
-        drawGuitar()
+        drawNeck()
+        drawFrets()
         calculateMatrizPositionNotes()
-        //drawAllNotes()
+        drawAllNotes()
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func drawGuitar() {
-        drawNeck()
-        drawFrets()
-    }
     
+
+    func desvanecerMastil(tiempo: TimeInterval, completion: @escaping ()->() ) {
+        let actionReducirAlpha = SKAction.fadeAlpha(to: 0.5, duration: tiempo)
+        let actionAumentarAlpha = SKAction.fadeAlpha(to: 1.0, duration: tiempo)
+        
+        // Difuminamos primero las notas falladas y después las acertadas
+        enumerateChildNodes(withName: "notaFallada") { (nodo, _) in
+            if let nodoNota = nodo as? ShapeNote {
+                nodoNota.name = "nota"
+                nodoNota.run(actionReducirAlpha) {
+                    nodoNota.fillColor = Colores.background
+                    nodoNota.run(actionAumentarAlpha)
+                    
+                }
+            }
+        }
+        
+        enumerateChildNodes(withName: "notaAcertada") { (nodo, _) in
+            if let nodoNota = nodo as? ShapeNote {
+                nodoNota.name = "nota"
+                self.limpiarTextoEnNodo(nodoNota)
+                nodoNota.run(actionReducirAlpha) {
+                    nodoNota.fillColor = Colores.background
+                    nodoNota.run(actionAumentarAlpha)
+                    completion()
+                }
+            }
+        }
+       
+    }
     
     /**
      Dibuja las dos notas del intervalo con una pausa intermedia.
      */
     func dibujarIntervalo(_ intervalo: Intervalo, notaOrigen: String, notaFinal: String, conPausa: TimeInterval) {
-        guard let cuerda = intervalo.origen.cuerda, let traste = intervalo.origen.traste else {
-            return
-        }
+        let cuerda = intervalo.origen.cuerda
+        let traste = intervalo.origen.traste
         
         // Calcular segunda nota
-        if let nuevaNota = intervalo.origen.incrementar(intervalo.posiciones[0]),
-            let nuevaCuerda = nuevaNota.cuerda,
-            let nuevoTraste = nuevaNota.traste {
-            
+        if let nuevaNota = intervalo.origen.incrementar(intervalo.posiciones[0])
+            {
+                let nuevaCuerda = nuevaNota.cuerda
+                let nuevoTraste = nuevaNota.traste
             let nota1 = createNodeNote(notaOrigen, inString: cuerda, atFret: traste, alpha: 0.0)
             let nota2 = createNodeNote(notaFinal, inString: nuevaCuerda, atFret: nuevoTraste, alpha: 0.0)
             nota1.fillColor = Colores.noteFillResaltada
@@ -116,14 +143,11 @@ class GuitarraGrafica: SKNode {
     // MARK: Funciones de escritura con parámetros de guitarra
     // Aquí la posición pasada por parámetro se dará desde la perspectiva de la guitarra
     // Dibuja una nota de la que se indica la cuerda y el traste en el mástil de la guitarra
-    func writeNote(_ note: String, inString string:Int, atFret fret: Int, timeToAppear: TimeInterval = Pausas.aparicionNota, fillColor: SKColor = Colores.noteFill) {
-        let (x,y) = coordinatesFromGuitarToArray(string: string, fret: fret)
-        let punto = matrizPositionNotes[x][y]
-        drawNoteAt(point: punto, withText: note, timeToAppear: timeToAppear, fillColor: fillColor)
-        
+    func writeNote(_ note: String, inString string:Int, atFret fret: Int, timeToAppear: TimeInterval = Pausas.aparicionNota, fillColor: SKColor = Colores.noteFill, withName name: String = "nota") {
+        drawShapeNoteAt(string: string, fret: fret, withText: note, timeToAppear: timeToAppear, fillColor: fillColor, withName: name)
     }
     
-    func createNodeNote(_ note: String, inString string: Int, atFret fret: Int, alpha: CGFloat = 1.0) -> SKShapeNode {
+    func createNodeNote(_ note: String, inString string: Int, atFret fret: Int, alpha: CGFloat = 1.0) -> ShapeNote {
         let (x,y) = coordinatesFromGuitarToArray(string: string, fret: fret)
         let punto = matrizPositionNotes[x][y]
         return createNodeNoteAt(point: punto, withText: note, alpha: alpha)
@@ -132,16 +156,47 @@ class GuitarraGrafica: SKNode {
     
     // MARK: Funciones para dibujar notas
     
+    // Dibujamos los círculos de posición pero sin notas asociadas.
+    // Se establece como fondo permanente
     func drawAllNotes() {
         for n in 0..<Medidas.numStrings {
             for m in 0..<Medidas.numTrastes {
-                drawNoteAt(point: matrizPositionNotes[n][m])
+                //drawNoteAt(point: matrizPositionNotes[n][m])
+                if let pos = coordinatesFromArrayToGuitar(x: n, y: m) {
+                    drawShapeNoteVaciaAt(cuerda: pos.cuerda, traste: pos.traste)
+                }
             }
         }
     }
     
+
+    func drawShapeNoteVaciaAt(cuerda: TipoPosicionCuerda, traste: TipoPosicionTraste) {
+        let (x,y) = coordinatesFromGuitarToArray(string: cuerda, fret: traste)
+        let shapeNote = drawCircleAt(point: matrizPositionNotes[x][y], withRadius: radius)
+        shapeNote.posicionEnMastil.cuerda = cuerda
+        shapeNote.posicionEnMastil.traste = traste
+        addChild(shapeNote)
+    }
+  
+    func drawShapeNoteAt(string: Int, fret: Int, withText text: String = "", withName name: String = "nota") {
+        drawShapeNoteAt(string: string, fret: fret, withText: text, timeToAppear: 0.1, withName: name)
+    }
+    
+    func drawShapeNoteAt(string: Int, fret: Int, withText text: String, alpha: CGFloat = 1.0, timeToAppear: TimeInterval = Pausas.aparicionNota, fillColor: SKColor = Colores.noteFill, withName name: String = "nota") {
+        let (x,y) = coordinatesFromGuitarToArray(string: string, fret: fret)
+        let punto = matrizPositionNotes[x][y]
+        let node = createNodeNoteAt(point: punto, withText: text, fillColor: fillColor, withName: name)
+        node.posicionEnMastil.cuerda = string
+        node.posicionEnMastil.traste = fret
+        let action = SKAction.fadeAlpha(to: alpha, duration: timeToAppear)
+        addChild(node)
+        node.run(action)
+        
+    }
+    
     func drawNoteAt(point: CGPoint) {
-        addChild(drawCircleAt(point: point, withRadius: radius))
+        drawNoteAt(point: point, withText: "", alpha: 1.0, timeToAppear: 0.1, fillColor: Colores.background)
+        //addChild(drawCircleAt(point: point, withRadius: radius))
     }
     
     // Dibuja la nota en el punto dado
@@ -153,7 +208,7 @@ class GuitarraGrafica: SKNode {
     }
     
     // Devuelve un nodo con la nota requerida y el alpha indicado
-    func createNodeNoteAt(point: CGPoint, withText text: String, alpha: CGFloat = 0.0, fillColor: SKColor = Colores.noteFill) -> SKShapeNode {
+    func createNodeNoteAt(point: CGPoint, withText text: String, alpha: CGFloat = 0.0, fillColor: SKColor = Colores.noteFill, withName name: String = "nota") -> ShapeNote {
         let nodeNote = drawCircleAt(point: .zero, withRadius: radius)
         nodeNote.fillColor = fillColor
         nodeNote.position = point
@@ -168,13 +223,18 @@ class GuitarraGrafica: SKNode {
         textLabel.alpha = 1.0
         nodeNote.alpha = alpha
         nodeNote.addChild(textLabel)
-        nodeNote.name = "nota"
-    
+        nodeNote.name = name
         return nodeNote
     }
     
     
-    
+    func limpiarTextoEnNodo (_ nodo: ShapeNote) {
+        for child in nodo.children {
+            if let nodoTexto = child as? SKLabelNode {
+                nodoTexto.text = ""
+            }
+        }
+    }
     
     func calculateMatrizPositionNotes () {
         for posString in arrayPositionStrings {
@@ -208,17 +268,16 @@ class GuitarraGrafica: SKNode {
         }
     }
     
+    // Dibujar círculos de posición pero sin ser nodos a tener en cuenta
+    
     
     func dibujarCaminoIntervalo (_ intervalo: Intervalo) -> SKShapeNode? {
-        guard let cuerda = intervalo.origen.cuerda, let traste = intervalo.origen.traste else {
-            return nil
-        }
-        
+        let cuerda = intervalo.origen.cuerda
+        let traste = intervalo.origen.traste
         // Calcular segunda nota
-        if let nuevaNota = intervalo.origen.incrementar(intervalo.posiciones[0]),
-            let nuevaCuerda = nuevaNota.cuerda,
-            let nuevoTraste = nuevaNota.traste {
-            
+        if let nuevaNota = intervalo.origen.incrementar(intervalo.posiciones[0]) {
+            let nuevaCuerda = nuevaNota.cuerda
+            let nuevoTraste = nuevaNota.traste
             let (x1, y1) = coordinatesFromGuitarToArray(string: cuerda, fret: traste)
             let (x2, y2) = coordinatesFromGuitarToArray(string: nuevaCuerda, fret: nuevoTraste)
             let punto1 = matrizPositionNotes[x1][y1] + CGPoint(x: radius, y: 0)
@@ -248,10 +307,10 @@ class GuitarraGrafica: SKNode {
         return line
     }
     
-    func drawCircleAt(point: CGPoint, withRadius radius: CGFloat, withEstilo estilo: EstiloNota = EstilosDefault.notas) -> SKShapeNode {
+    func drawCircleAt(point: CGPoint, withRadius radius: CGFloat, withEstilo estilo: EstiloNota = EstilosDefault.notas) -> ShapeNote {
         let path = CGMutablePath()
         path.addArc(center: point, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
-        let circle = SKShapeNode(path: path)
+        let circle = ShapeNote(path: path)
         circle.isUserInteractionEnabled = false
         circle.name = "circle"
         circle.lineWidth = estilo.anchoLinea
@@ -295,7 +354,7 @@ class GuitarraGrafica: SKNode {
     // Elimina todos los nodos "nota" y "camino" que estén dibujados en pantalla
     func limpiarGuitarra() {
         for child in children {
-            if child.name == "nota" || child.name == "camino" {
+            if child.name == "nota" || child.name == "camino" || child.name == "circle" {
                 child.removeFromParent()
             }
         }

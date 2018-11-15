@@ -26,16 +26,18 @@ enum TipoTraste {
  Almacena una posición de traste en formato cuerda, traste.
  Incluye funciones matemáticas para el cálculo de trastes a partir de la suma de intervalos
  */
-struct PosicionTraste {
-    var cuerda: Int?
-    var traste: Int?
+struct PosicionTraste: Equatable {
+    var cuerda: Int
+    var traste: Int
     
     init(cuerda: Int) {
         self.cuerda = cuerda
+        self.traste = 0
     }
     
     init(traste:Int) {
         self.traste = traste
+        self.cuerda = 0
     }
     
     init(cuerda: Int, traste: Int) {
@@ -44,18 +46,27 @@ struct PosicionTraste {
     }
     
     mutating func autoincrementar (_ inc: Incremento) { // Aquí no comprobamos si está en los límites
-        guard cuerda != nil, traste != nil else { return }
-        cuerda = cuerda! + inc.cuerda
-        traste = traste! + inc.traste
+        cuerda = cuerda + inc.cuerda
+        traste = traste + inc.traste
     }
     
     // Dado un traste y un incremento en cuerdas y trastes, la función calcula el traste resultante.
     func incrementar (_ inc: Incremento) -> PosicionTraste? {
-        guard cuerda != nil, traste != nil else { return nil }
-        let nuevaPosicion = PosicionTraste(cuerda: cuerda! + inc.cuerda, traste: traste! + inc.traste)
-        return nuevaPosicion
+        let nuevaPosicion = PosicionTraste(cuerda: cuerda + inc.cuerda, traste: traste + inc.traste)
+        if nuevaPosicion.cuerda > Medidas.numStrings || nuevaPosicion.traste > Medidas.numTrastes {
+            return nil
+        } else {
+           return nuevaPosicion
+        }
+        
+    }
+    
+    static func == (lhs: PosicionTraste, rhs: PosicionTraste) -> Bool {
+        return lhs.cuerda == rhs.cuerda &&
+            lhs.traste == rhs.traste 
     }
 }
+
 
 
 class Mastil {
@@ -107,7 +118,8 @@ class Mastil {
     //
     
     func writeNote(_ note: TipoTraste, enTraste traste: PosicionTraste) {
-        guard let cuerda = traste.cuerda, let fret = traste.traste else { return }
+        let cuerda = traste.cuerda
+        let fret = traste.traste
         writeNote(note, inString: cuerda, atFret: fret)
     }
     

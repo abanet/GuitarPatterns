@@ -8,11 +8,82 @@
 
 import Foundation
 
-struct Nota {
-    let literal: String
-    let lugarArmonico: String // T, 2b, 5aug, etc
-    let posicion: PosicionTraste
+enum NombreNota: String {
+    case C = "C"
+    case D = "D"
+    case E = "E"
+    case F = "F"
+    case G = "G"
+    case A = "A"
+    case B = "B"
 }
+
+enum TipoIntervalo: String {
+    case unisono            = ""
+    case segundamenor       = "2b"
+    case segundamayor       = "2"
+    case terceramenor       = "3b"
+    case terceramayor       = "3"
+    case cuartajusta        = "4"
+    case cuartaaumentada    = "4+"
+    case quintadisminuida   = "5-"
+    case quintajusta        = "5"
+    case sextamenor         = "6b"
+    case sextamayor         = "6"
+    case septimamenor       = "7b"
+    case septimamayor       = "7"
+    case octavajusta        = "T"
+    
+    
+}
+
+extension TipoIntervalo: Hashable {
+    static func == (lhs: TipoIntervalo, rhs: TipoIntervalo) -> Bool {
+        return lhs.rawValue == rhs.rawValue
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(rawValue)
+    }
+}
+
+let InversionesIntervalo: [TipoIntervalo:TipoIntervalo] =
+    [
+        .unisono            : .unisono,
+        .segundamenor       : .septimamenor,
+        .segundamayor       : .septimamenor,
+        .terceramenor       : .sextamayor,
+        .terceramayor       : .sextamenor,
+        .cuartajusta        : .quintajusta,
+        .cuartaaumentada    : .quintadisminuida,
+        .quintadisminuida   : .cuartajusta,
+        .quintajusta        : .cuartajusta,
+        .sextamenor         : .terceramayor,
+        .sextamayor         : .terceramenor,
+        .septimamenor       : .segundamayor,
+        .septimamayor       : .segundamenor,
+        .octavajusta        : .octavajusta
+]
+
+let DistanciaIntervalos: [TipoIntervalo: Int] = [
+    .unisono            : 0,
+    .segundamenor       : 1,
+    .segundamayor       : 2,
+    .terceramenor       : 3,
+    .terceramayor       : 4,
+    .cuartajusta        : 5,
+    .cuartaaumentada    : 6,
+    .quintadisminuida   : 6,
+    .quintajusta        : 7,
+    .sextamenor         : 8,
+    .sextamayor         : 9,
+    .septimamenor       : 10,
+    .septimamayor       : 11,
+    .octavajusta        : 12
+]
+
+
+
 
 // Incremento para calcular otra nota
 struct Incremento {
@@ -45,28 +116,10 @@ struct Intervalo {
     }
 }
 
-enum TipoIntervalo {
-    case segundamenor
-    case segundamayor
-    case terceramenor
-    case terceramayor
-    case cuartajusta
-    case cuartaaumentada
-    case quintadisminuida
-    case quintajusta
-    case sextamenor
-    case sextamayor
-    case septimamenor
-    case septimamayor
-    case octavajusta
-}
 
-struct Patron {
-    let nombre: String
-    let origen: Nota
-    let sucesionNotas: [Nota]
-    let sucesionIntervalos: [Intervalo]
-}
+
+
+
 
 /*
  *
@@ -75,8 +128,9 @@ struct Patron {
  */
 
 class Armonia {
-  // TODO: mejor almacenarlo en un diccionario
+  
     var intervalos: [TipoIntervalo:[Intervalo]] = [TipoIntervalo:[Intervalo]]()
+    
     
     init() {
         definirIntervalosOctava()
@@ -168,3 +222,5 @@ class Armonia {
     }
     
 }
+
+

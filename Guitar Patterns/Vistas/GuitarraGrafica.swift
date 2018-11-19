@@ -57,6 +57,7 @@ class GuitarraGrafica: SKNode {
     
     var arrayPositionStrings:[CGFloat] = [CGFloat]() // posiciones de las cuerdas
     var matrizPositionNotes:[[CGPoint]] = [[CGPoint]]()
+    var matrizShapeNotes: [[ShapeNote]] = [[ShapeNote]]()
     
     init(size:CGSize) {
         self.size = size
@@ -171,11 +172,13 @@ class GuitarraGrafica: SKNode {
     
 
     func drawShapeNoteVaciaAt(cuerda: TipoPosicionCuerda, traste: TipoPosicionTraste) {
-        let (x,y) = coordinatesFromGuitarToArray(string: cuerda, fret: traste)
-        let shapeNote = drawCircleAt(point: matrizPositionNotes[x][y], withRadius: radius)
-        shapeNote.posicionEnMastil.cuerda = cuerda
-        shapeNote.posicionEnMastil.traste = traste
-        addChild(shapeNote)
+//        let (x,y) = coordinatesFromGuitarToArray(string: cuerda, fret: traste)
+//        let shapeNote = drawCircleAt(point: matrizPositionNotes[x][y], withRadius: radius)
+//        shapeNote.posicionEnMastil.cuerda = cuerda
+//        shapeNote.posicionEnMastil.traste = traste
+//
+//        addChild(shapeNote)
+        drawShapeNoteAt(string: cuerda, fret: traste)
     }
   
     func drawShapeNoteAt(string: Int, fret: Int, withText text: String = "", withName name: String = "nota") {
@@ -191,7 +194,17 @@ class GuitarraGrafica: SKNode {
         let action = SKAction.fadeAlpha(to: alpha, duration: timeToAppear)
         addChild(node)
         node.run(action)
-        
+    }
+    
+    
+    // Devuelve una ShapeNote en la posición indicada
+    func returnShapeNoteAt(string: Int, fret: Int, withText text: String, alpha: CGFloat = 1.0,fillColor: SKColor = Colores.noteFill, withName name: String = "nota") -> ShapeNote {
+        let (x,y) = coordinatesFromGuitarToArray(string: string, fret: fret)
+        let punto = matrizPositionNotes[x][y]
+        let node = createNodeNoteAt(point: punto, withText: text, fillColor: fillColor, withName: name)
+        node.posicionEnMastil.cuerda = string
+        node.posicionEnMastil.traste = fret
+        return node
     }
     
     func drawNoteAt(point: CGPoint) {
@@ -227,6 +240,21 @@ class GuitarraGrafica: SKNode {
         return nodeNote
     }
     
+    
+    // MARK: funciones de limpieza de notos
+    
+    // Elimina todas las tónicas que aparecen en el mastil
+    func limpiarTonicas() {
+        for child in children {
+            if let nodo = child as? ShapeNote {
+                for nodo in nodo.children {
+                if let nodoTexto = nodo as? SKLabelNode, nodoTexto.text == "T" {
+                    nodoTexto.text = ""
+                }
+                }
+            }
+        }
+    }
     
     func limpiarTextoEnNodo (_ nodo: ShapeNote) {
         for child in nodo.children {

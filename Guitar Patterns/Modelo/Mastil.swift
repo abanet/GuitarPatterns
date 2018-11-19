@@ -9,63 +9,6 @@
 
 import Foundation
 
-typealias TipoPosicionCuerda = Int
-typealias TipoPosicionTraste = Int
-
-/**
- * case vacio, blanco, nota(String), relacion(Int)
- */
-enum TipoTraste {
-    case vacio
-    case blanco
-    case nota(String)
-    case relacion(Int) // igual no hace falta y los tratamos como notas
-}
-
-/**
- Almacena una posición de traste en formato cuerda, traste.
- Incluye funciones matemáticas para el cálculo de trastes a partir de la suma de intervalos
- */
-struct PosicionTraste: Equatable {
-    var cuerda: Int
-    var traste: Int
-    
-    init(cuerda: Int) {
-        self.cuerda = cuerda
-        self.traste = 0
-    }
-    
-    init(traste:Int) {
-        self.traste = traste
-        self.cuerda = 0
-    }
-    
-    init(cuerda: Int, traste: Int) {
-        self.cuerda = cuerda
-        self.traste = traste
-    }
-    
-    mutating func autoincrementar (_ inc: Incremento) { // Aquí no comprobamos si está en los límites
-        cuerda = cuerda + inc.cuerda
-        traste = traste + inc.traste
-    }
-    
-    // Dado un traste y un incremento en cuerdas y trastes, la función calcula el traste resultante.
-    func incrementar (_ inc: Incremento) -> PosicionTraste? {
-        let nuevaPosicion = PosicionTraste(cuerda: cuerda + inc.cuerda, traste: traste + inc.traste)
-        if nuevaPosicion.cuerda > Medidas.numStrings || nuevaPosicion.traste > Medidas.numTrastes {
-            return nil
-        } else {
-           return nuevaPosicion
-        }
-        
-    }
-    
-    static func == (lhs: PosicionTraste, rhs: PosicionTraste) -> Bool {
-        return lhs.cuerda == rhs.cuerda &&
-            lhs.traste == rhs.traste 
-    }
-}
 
 
 

@@ -92,9 +92,29 @@ struct PosicionTraste: Equatable {
             }
         }
         return nil
-        
     }
     
+    func semitonosHasta(posicion: PosicionTraste) -> Int? {
+        guard self.cuerda != 0 && self.traste != 0 else {
+            return nil
+        }
+        
+        let cuerdasInvolucradas = abs(self.cuerda - posicion.cuerda)
+        var semitonos = cuerdasInvolucradas * 5 // afinación universal
+        if self.cuerda <= posicion.cuerda {
+            if (self.cuerda...posicion.cuerda).contains(2) {
+                semitonos -= 1              // Corrección por 2 cuerda
+            }
+        } else {
+            if (posicion.cuerda...self.cuerda).contains(2) {
+                semitonos -= 1              // Corrección por 2 cuerda
+            }
+            
+        }
+        semitonos += posicion.traste - self.traste
+        
+        return semitonos
+    }
     
     // MARK: Equatable Protocol
     static func == (lhs: PosicionTraste, rhs: PosicionTraste) -> Bool {

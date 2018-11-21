@@ -15,15 +15,32 @@
 		D3036DD5219099CB00E99120 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3036DD4219099CB00E99120 /* Assets.xcassets */; };
 		D3036DD8219099CB00E99120 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3036DD6219099CB00E99120 /* LaunchScreen.storyboard */; };
 		D3036DE02190AFC900E99120 /* Constantes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3036DDF2190AFC900E99120 /* Constantes.swift */; };
+		D3198F6A21A4389D006A3D15 /* SKAction+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3198F6921A4389D006A3D15 /* SKAction+Extension.swift */; };
+		D3198F6C21A469CD006A3D15 /* C0.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3198F6B21A469CD006A3D15 /* C0.wav */; };
+		D3198F7921A46A47006A3D15 /* D0#.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3198F6E21A46A46006A3D15 /* D0#.wav */; };
+		D3198F7A21A46A47006A3D15 /* F0.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3198F6F21A46A46006A3D15 /* F0.wav */; };
+		D3198F7B21A46A47006A3D15 /* G0.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3198F7021A46A46006A3D15 /* G0.wav */; };
+		D3198F7C21A46A47006A3D15 /* C0#.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3198F7121A46A46006A3D15 /* C0#.wav */; };
+		D3198F7D21A46A47006A3D15 /* D0.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3198F7221A46A46006A3D15 /* D0.wav */; };
+		D3198F7E21A46A47006A3D15 /* B0.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3198F7321A46A46006A3D15 /* B0.wav */; };
+		D3198F7F21A46A47006A3D15 /* A0.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3198F7421A46A46006A3D15 /* A0.wav */; };
+		D3198F8021A46A47006A3D15 /* A0#.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3198F7521A46A46006A3D15 /* A0#.wav */; };
+		D3198F8121A46A47006A3D15 /* G0#.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3198F7621A46A47006A3D15 /* G0#.wav */; };
+		D3198F8221A46A47006A3D15 /* E0.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3198F7721A46A47006A3D15 /* E0.wav */; };
+		D3198F8321A46A47006A3D15 /* F0#.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3198F7821A46A47006A3D15 /* F0#.wav */; };
+		D3198F8521A46A9A006A3D15 /* bombDrop.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3198F8421A46A9A006A3D15 /* bombDrop.wav */; };
 		D31BEC12219EC9EB004376C7 /* Patron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31BEC11219EC9EB004376C7 /* Patron.swift */; };
 		D31BEC14219F2320004376C7 /* Traste.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31BEC13219F2320004376C7 /* Traste.swift */; };
 		D31F86392192EAC600E5346E /* Armonia.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31F86382192EAC600E5346E /* Armonia.swift */; };
 		D322F8A0219B27B5005AC8F4 /* ShapeNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D322F89F219B27B5005AC8F4 /* ShapeNote.swift */; };
 		D3241A5C219D924B00AE7F27 /* EditorPatrones.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3241A5B219D924B00AE7F27 /* EditorPatrones.swift */; };
+		D333473021A357EF002C4CFC /* CGFloat+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D333472F21A357EF002C4CFC /* CGFloat+extension.swift */; };
 		D33686ED21997EF0008E9352 /* ConversorGuitarraArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33686EC21997EF0008E9352 /* ConversorGuitarraArray.swift */; };
 		D3AD301221A2CF9200BE8032 /* Escala.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AD301121A2CF9200BE8032 /* Escala.swift */; };
 		D3AD301421A2E31E00BE8032 /* DibujarPatron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AD301321A2E31E00BE8032 /* DibujarPatron.swift */; };
 		D3AD301621A3172300BE8032 /* JuegoPatron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AD301521A3172300BE8032 /* JuegoPatron.swift */; };
+		D3F14FA321A56B1C0055703E /* Nivel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F14FA221A56B1C0055703E /* Nivel.swift */; };
+		D3F14FA621A583CB0055703E /* PresentacionNivel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F14FA521A583CB0055703E /* PresentacionNivel.swift */; };
 		D3F9C0292191AE6400A349F7 /* Mastil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F9C0282191AE6400A349F7 /* Mastil.swift */; };
 		D3F9C02D2191B02900A349F7 /* GuitarraGrafica.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F9C02C2191B02900A349F7 /* GuitarraGrafica.swift */; };
 /* End PBXBuildFile section */
@@ -39,15 +56,32 @@
 		D3036DD7219099CB00E99120 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D3036DD9219099CB00E99120 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3036DDF2190AFC900E99120 /* Constantes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constantes.swift; sourceTree = "<group>"; };
+		D3198F6921A4389D006A3D15 /* SKAction+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SKAction+Extension.swift"; path = "Guitar Patterns/SKAction+Extension.swift"; sourceTree = SOURCE_ROOT; };
+		D3198F6B21A469CD006A3D15 /* C0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = C0.wav; path = "Guitar Patterns/sonidos/C0.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F6E21A46A46006A3D15 /* D0#.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "D0#.wav"; path = "notas/D0#.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F6F21A46A46006A3D15 /* F0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = F0.wav; path = notas/F0.wav; sourceTree = SOURCE_ROOT; };
+		D3198F7021A46A46006A3D15 /* G0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = G0.wav; path = notas/G0.wav; sourceTree = SOURCE_ROOT; };
+		D3198F7121A46A46006A3D15 /* C0#.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "C0#.wav"; path = "notas/C0#.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F7221A46A46006A3D15 /* D0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = D0.wav; path = notas/D0.wav; sourceTree = SOURCE_ROOT; };
+		D3198F7321A46A46006A3D15 /* B0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = B0.wav; path = notas/B0.wav; sourceTree = SOURCE_ROOT; };
+		D3198F7421A46A46006A3D15 /* A0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = A0.wav; path = notas/A0.wav; sourceTree = SOURCE_ROOT; };
+		D3198F7521A46A46006A3D15 /* A0#.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "A0#.wav"; path = "notas/A0#.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F7621A46A47006A3D15 /* G0#.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "G0#.wav"; path = "notas/G0#.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F7721A46A47006A3D15 /* E0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = E0.wav; path = notas/E0.wav; sourceTree = SOURCE_ROOT; };
+		D3198F7821A46A47006A3D15 /* F0#.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "F0#.wav"; path = "notas/F0#.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F8421A46A9A006A3D15 /* bombDrop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bombDrop.wav; sourceTree = "<group>"; };
 		D31BEC11219EC9EB004376C7 /* Patron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Patron.swift; sourceTree = "<group>"; };
 		D31BEC13219F2320004376C7 /* Traste.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Traste.swift; sourceTree = "<group>"; };
 		D31F86382192EAC600E5346E /* Armonia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Armonia.swift; sourceTree = "<group>"; };
 		D322F89F219B27B5005AC8F4 /* ShapeNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeNote.swift; sourceTree = "<group>"; };
 		D3241A5B219D924B00AE7F27 /* EditorPatrones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorPatrones.swift; sourceTree = "<group>"; };
+		D333472F21A357EF002C4CFC /* CGFloat+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CGFloat+extension.swift"; path = "Guitar Patterns/CGFloat+extension.swift"; sourceTree = SOURCE_ROOT; };
 		D33686EC21997EF0008E9352 /* ConversorGuitarraArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConversorGuitarraArray.swift; path = "Guitar Patterns/Modelo/ConversorGuitarraArray.swift"; sourceTree = SOURCE_ROOT; };
 		D3AD301121A2CF9200BE8032 /* Escala.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Escala.swift; sourceTree = "<group>"; };
 		D3AD301321A2E31E00BE8032 /* DibujarPatron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DibujarPatron.swift; sourceTree = "<group>"; };
 		D3AD301521A3172300BE8032 /* JuegoPatron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JuegoPatron.swift; sourceTree = "<group>"; };
+		D3F14FA221A56B1C0055703E /* Nivel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nivel.swift; sourceTree = "<group>"; };
+		D3F14FA521A583CB0055703E /* PresentacionNivel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentacionNivel.swift; sourceTree = "<group>"; };
 		D3F9C0282191AE6400A349F7 /* Mastil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mastil.swift; sourceTree = "<group>"; };
 		D3F9C02C2191B02900A349F7 /* GuitarraGrafica.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuitarraGrafica.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -67,6 +101,8 @@
 			isa = PBXGroup;
 			children = (
 				D33686EC21997EF0008E9352 /* ConversorGuitarraArray.swift */,
+				D333472F21A357EF002C4CFC /* CGFloat+extension.swift */,
+				D3198F6921A4389D006A3D15 /* SKAction+Extension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -90,14 +126,12 @@
 		D3036DC6219099CA00E99120 /* Guitar Patterns */ = {
 			isa = PBXGroup;
 			children = (
+				D3198F6D21A46A0D006A3D15 /* sonidos */,
 				C08F38CC2194BC320027F8FB /* Helpers */,
 				D3F9C02B2191B00C00A349F7 /* Vistas */,
 				D3F9C02A2191B00200A349F7 /* Modelo */,
 				D3036DC7219099CA00E99120 /* AppDelegate.swift */,
-				D3036DCD219099CA00E99120 /* GameScene.swift */,
-				D3241A5B219D924B00AE7F27 /* EditorPatrones.swift */,
-				D3AD301321A2E31E00BE8032 /* DibujarPatron.swift */,
-				D3AD301521A3172300BE8032 /* JuegoPatron.swift */,
+				D3F14FA421A583910055703E /* Escenas */,
 				D3036DCF219099CA00E99120 /* GameViewController.swift */,
 				D3036DD1219099CA00E99120 /* Main.storyboard */,
 				D3036DD4219099CB00E99120 /* Assets.xcassets */,
@@ -105,6 +139,38 @@
 				D3036DD9219099CB00E99120 /* Info.plist */,
 			);
 			path = "Guitar Patterns";
+			sourceTree = "<group>";
+		};
+		D3198F6D21A46A0D006A3D15 /* sonidos */ = {
+			isa = PBXGroup;
+			children = (
+				D3198F8421A46A9A006A3D15 /* bombDrop.wav */,
+				D3198F6B21A469CD006A3D15 /* C0.wav */,
+				D3198F7421A46A46006A3D15 /* A0.wav */,
+				D3198F7521A46A46006A3D15 /* A0#.wav */,
+				D3198F7321A46A46006A3D15 /* B0.wav */,
+				D3198F7121A46A46006A3D15 /* C0#.wav */,
+				D3198F7221A46A46006A3D15 /* D0.wav */,
+				D3198F6E21A46A46006A3D15 /* D0#.wav */,
+				D3198F7721A46A47006A3D15 /* E0.wav */,
+				D3198F6F21A46A46006A3D15 /* F0.wav */,
+				D3198F7821A46A47006A3D15 /* F0#.wav */,
+				D3198F7021A46A46006A3D15 /* G0.wav */,
+				D3198F7621A46A47006A3D15 /* G0#.wav */,
+			);
+			path = sonidos;
+			sourceTree = "<group>";
+		};
+		D3F14FA421A583910055703E /* Escenas */ = {
+			isa = PBXGroup;
+			children = (
+				D3036DCD219099CA00E99120 /* GameScene.swift */,
+				D3241A5B219D924B00AE7F27 /* EditorPatrones.swift */,
+				D3AD301321A2E31E00BE8032 /* DibujarPatron.swift */,
+				D3AD301521A3172300BE8032 /* JuegoPatron.swift */,
+				D3F14FA521A583CB0055703E /* PresentacionNivel.swift */,
+			);
+			path = Escenas;
 			sourceTree = "<group>";
 		};
 		D3F9C02A2191B00200A349F7 /* Modelo */ = {
@@ -117,6 +183,7 @@
 				D31BEC11219EC9EB004376C7 /* Patron.swift */,
 				D31BEC13219F2320004376C7 /* Traste.swift */,
 				D3AD301121A2CF9200BE8032 /* Escala.swift */,
+				D3F14FA221A56B1C0055703E /* Nivel.swift */,
 			);
 			path = Modelo;
 			sourceTree = "<group>";
@@ -188,9 +255,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3198F7F21A46A47006A3D15 /* A0.wav in Resources */,
+				D3198F7E21A46A47006A3D15 /* B0.wav in Resources */,
+				D3198F7A21A46A47006A3D15 /* F0.wav in Resources */,
+				D3198F8321A46A47006A3D15 /* F0#.wav in Resources */,
+				D3198F8021A46A47006A3D15 /* A0#.wav in Resources */,
+				D3198F7C21A46A47006A3D15 /* C0#.wav in Resources */,
 				D3036DD3219099CA00E99120 /* Main.storyboard in Resources */,
+				D3198F7921A46A47006A3D15 /* D0#.wav in Resources */,
+				D3198F8221A46A47006A3D15 /* E0.wav in Resources */,
+				D3198F6C21A469CD006A3D15 /* C0.wav in Resources */,
 				D3036DD5219099CB00E99120 /* Assets.xcassets in Resources */,
+				D3198F7B21A46A47006A3D15 /* G0.wav in Resources */,
+				D3198F7D21A46A47006A3D15 /* D0.wav in Resources */,
+				D3198F8521A46A9A006A3D15 /* bombDrop.wav in Resources */,
 				D3036DD8219099CB00E99120 /* LaunchScreen.storyboard in Resources */,
+				D3198F8121A46A47006A3D15 /* G0#.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,12 +288,16 @@
 				D3AD301221A2CF9200BE8032 /* Escala.swift in Sources */,
 				D322F8A0219B27B5005AC8F4 /* ShapeNote.swift in Sources */,
 				D31BEC14219F2320004376C7 /* Traste.swift in Sources */,
+				D3198F6A21A4389D006A3D15 /* SKAction+Extension.swift in Sources */,
 				D3036DC8219099CA00E99120 /* AppDelegate.swift in Sources */,
+				D3F14FA321A56B1C0055703E /* Nivel.swift in Sources */,
 				D33686ED21997EF0008E9352 /* ConversorGuitarraArray.swift in Sources */,
+				D3F14FA621A583CB0055703E /* PresentacionNivel.swift in Sources */,
 				D3036DE02190AFC900E99120 /* Constantes.swift in Sources */,
 				D3AD301621A3172300BE8032 /* JuegoPatron.swift in Sources */,
 				D3F9C02D2191B02900A349F7 /* GuitarraGrafica.swift in Sources */,
 				D3241A5C219D924B00AE7F27 /* EditorPatrones.swift in Sources */,
+				D333473021A357EF002C4CFC /* CGFloat+extension.swift in Sources */,
 				D3F9C0292191AE6400A349F7 /* Mastil.swift in Sources */,
 				D3AD301421A2E31E00BE8032 /* DibujarPatron.swift in Sources */,
 				C0CA1788219359CE00814C0C /* Ejercicio.swift in Sources */,
@@ -365,6 +449,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FLU98JG66T;
 				INFOPLIST_FILE = "Guitar Patterns/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -383,6 +468,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FLU98JG66T;
 				INFOPLIST_FILE = "Guitar Patterns/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

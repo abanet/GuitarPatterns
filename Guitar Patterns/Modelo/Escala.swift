@@ -21,7 +21,6 @@ enum TipoModo {
 
 
 
-
 class Escala {
     var modo: TipoModo
     var intervalica: [TipoIntervalo]
@@ -46,6 +45,44 @@ class Escala {
         }
         intervalica = escalas[modo]!
     }
+}
+
+enum TipoAcorde {
+    case mayor
+    case mayor7
+    case menor
+    case menor7
+    case Maj7
+    case Maj7sus
+    case Maj7novena
+    case Maj7sexta
+    case Maj713
+    case Maj711
+    case Maj713sus
+    case sexta
+    case add9
+    case sextanovena
+    case add9sus
+    case sextasus
+    case sextanovenasus
+    case sus4
+}
+
+class Acorde {
+    var tipo: TipoAcorde
+    var intervalica: [TipoIntervalo]
     
+    
+    let intervalos: [TipoAcorde:[TipoIntervalo]] = [
+        .mayor: [TipoIntervalo.terceramayor, .quintajusta],
+        .menor: [TipoIntervalo.terceramenor, .quintajusta],
+        .Maj7:  [TipoIntervalo.terceramayor, .quintajusta, .septimamayor],
+        .sexta: [TipoIntervalo.terceramayor, .quintajusta, .sextamayor]
+    ]
+    
+    init(tipo: TipoAcorde) {
+        self.tipo = tipo
+        intervalica = intervalos[tipo]!
+    }
     
 }

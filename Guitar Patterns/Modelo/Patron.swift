@@ -12,8 +12,8 @@ import Foundation
 
 enum TipoPatron {
     case escala (TipoModo)
-    case arpegio
-    case acorde
+    case arpegio (TipoAcorde)
+    case acorde (TipoAcorde)
 }
 
 class Patron {
@@ -86,15 +86,16 @@ class Patron {
 
 // Definición de los patrones
 struct PatronesDdbb {
-    var patrones: [Patron] = [Patron]()
     var escalas: [Patron] = [Patron]()
+    var arpegios: [Patron] = [Patron]()
+    var acordes: [Patron] = [Patron]()
     
     
     init() {
-        self.incorporarPatrones()
+        self.incorporarPatronesEscalas()
     }
     
-    mutating func incorporarPatrones() {
+    mutating func incorporarPatronesEscalas() {
         // Patrón del MODO JÓNICO
         let escalaJonicaRaizBordonD1: Patron = Patron(tipo: .escala(.jonico), posTonica: PosicionTraste(cuerda: 6, traste: 2),
                     incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: 2), Incremento(cuerda: 0, traste: 4),
@@ -178,6 +179,42 @@ struct PatronesDdbb {
         escalas.append(escalaJonicaRaizQuintaD2)
         escalas.append(escalaJonicaRaizQuintaD4)
        
+    }
+    
+    
+    mutating func incorporarPatronesArpegios() {
+        //
+        // Arpegio Maj7 Tónica en sexta cuerda, posición de dedo 1
+        let arpegioMaj7BordonD1: Patron = Patron(tipo: .arpegio(.Maj7), posTonica: PosicionTraste(cuerda: 6, traste: 2),
+            incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: 4),
+                Incremento(cuerda: -1, traste: 2),
+                Incremento(cuerda: -2, traste: 1), Incremento(cuerda: -2, traste: 2),
+                Incremento(cuerda: -3, traste: 1), Incremento(cuerda: -3, traste: 4),
+                Incremento(cuerda: -4, traste: 4),
+                Incremento(cuerda: -5, traste: 0), Incremento(cuerda: -5, traste: 4),
+            ])
+        arpegioMaj7BordonD1.nombre = "Arpegio Maj7"
+        arpegioMaj7BordonD1.descripcion = "Arpegio Maj7 con tónica en sexta y dedo 1"
+        arpegioMaj7BordonD1.dedo = 1
+        
+        arpegios.append(arpegioMaj7BordonD1)
+    }
+    
+    mutating func incorporarPatronesAcordes() {
+        //
+        // Arpegio Maj7 Tónica en sexta cuerda, posición de dedo 1
+        let acordeMaj7BordonD1: Patron = Patron(tipo: .acorde(.Maj7), posTonica: PosicionTraste(cuerda: 6, traste: 2),
+                        incrementos: [Incremento(cuerda: 0, traste: 0),
+                        Incremento(cuerda: -2, traste: 1),
+                        Incremento(cuerda: -3, traste: 1),
+                        Incremento(cuerda: -4, traste: 0),
+        ])
+        
+        acordeMaj7BordonD1.nombre = "Acorde Maj7"
+        acordeMaj7BordonD1.descripcion = "Acorde Maj7 con tónica en sexta y dedo 1"
+        acordeMaj7BordonD1.dedo = 1
+        
+        acordes.append(acordeMaj7BordonD1)
     }
 }
 

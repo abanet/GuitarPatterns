@@ -40,7 +40,8 @@ class GuitarraGrafica: SKNode {
     
     var spaceBetweenStrings: CGFloat {
         get {
-            return (size.height - Medidas.topSpace - Medidas.bottomSpace) / CGFloat(Medidas.numStrings)
+            //return (size.height - Medidas.topSpace - Medidas.bottomSpace) / CGFloat(Medidas.numStrings)
+            return (size.height - Medidas.porcentajeTopSpace * size.height - Medidas.bottomSpace) / CGFloat(Medidas.numStrings)
         }
     }
     

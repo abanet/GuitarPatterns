@@ -17,7 +17,8 @@ class GameViewController: UIViewController {
         //let scene = GameScene(size:CGSize(width: view.frame.width, height: view.frame.height))
         //let scene = EditorPatrones(size: CGSize(width: view.frame.width, height: view.frame.height))
         //let scene = DibujarPatron(size: CGSize(width: view.frame.width, height: view.frame.height))
-        let scene = JuegoPatron(size: CGSize(width: view.frame.width, height: view.frame.height))
+        let scene = PresentacionNivel(size: CGSize(width: view.frame.width, height: view.frame.height), level: 1)
+        print("Tamaño escena: \(view.frame.width) x \(view.frame.height)")
         let skView = self.view as! SKView
         skView.ignoresSiblingOrder = true
         skView.presentScene(scene)

@@ -9,9 +9,7 @@
 import Foundation
 import SpriteKit
 
-enum TipoNivel: Int {
-  case bajo = 0, medio, alto
-}
+
 
 /**
   Indica el tipo de acción a realizar sobre el mástil.

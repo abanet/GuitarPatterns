@@ -27,6 +27,8 @@ class ShapeNote: SKShapeNode
     }
     
     var esTonica: Bool = false
+    var distanciaDesdeTonica: Int? // número de semitonos desde la tónica
+    var tag: String?
     
     private(set) var tipoShapeNote: TipoShapeNote = .unselected {
         didSet {
@@ -40,7 +42,7 @@ class ShapeNote: SKShapeNode
                 setTextShapeNote("")
                 esTonica = false
             case .tonica:
-                fillColor = Colores.noteFillResaltada
+                fillColor = Colores.tonica
                 setTextShapeNote("T")
                 esTonica = true
             }
@@ -63,5 +65,32 @@ class ShapeNote: SKShapeNode
         }
     }
     
+    func getTextShapeNote() -> String? {
+        for child in self.children {
+            if let nodoTexto = child as? SKLabelNode {
+                return nodoTexto.text
+            }
+        }
+        return nil
+    }
+    
+    // getter y setter del tag. Se utilizará para almacenar información adicional del ShapeNode.
+    // Se crea pensando en almacenar la nota o intervalo que lleva asociada
+    func setTagShapeNote(_ tag: String) {
+        self.tag = tag
+    }
+    
+    func getTagShapeNote()  -> String? {
+        return tag
+    }
+    
+    
+    func setDistanciaDesdeTonica(valor: Int?) {
+        self.distanciaDesdeTonica = valor
+    }
+    
+    func getDistanciaDesdeTonica() -> Int? {
+        return self.distanciaDesdeTonica
+    }
     
 }

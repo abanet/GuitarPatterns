@@ -14,7 +14,16 @@ struct Medidas {
     static let topSpace: CGFloat = 50.0 // espacio reservado para la comunicación
     static let bottomSpace: CGFloat = 50.0 // aire en la parte inferior
     static let marginSpace: CGFloat = 50.0 // aire a los lados
-    
+    static let porcentajeTopSpace: CGFloat = {
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            return 0.20
+        case .pad:
+            return 0.30
+        default:
+            return 0.25
+        }
+    }()
     // Strings
     static let numStrings = 6 // guitarra
     static let numTrastes = 7
@@ -39,6 +48,7 @@ struct Colores {
     static let indicaciones = SKColor.white
     static let camino = SKColor.yellow
     static let fallo = SKColor.darkGray
+    static let tonica = SKColor.red
 }
 
 struct Pausas {

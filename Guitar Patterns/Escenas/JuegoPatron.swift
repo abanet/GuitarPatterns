@@ -14,10 +14,7 @@ class JuegoPatron: SKScene {
     let xMinimaBolas: CGFloat = 50.0
     
     var nivel: Nivel! // sustituir parámetros sueltos por esta variable de nivel
-    var tiempoLimite: Int = 20 // tiempo límite para terminar el nivel
-    var puntosPorSegundo: CGFloat  = -10.0 // velocidad inicial de desplazamiento
-    var velocidad = CGPoint.zero
-    var tiempoRecorrerNotaPantalla: Double = 40.0
+    lazy var tiempoRecorrerNotaPantalla: Double = nivel.tiempoRecorrerPantalla
 
     var objetivos: [String]  = [String]()
     var notasObjetivo: [SKShapeNode] = [SKShapeNode]()
@@ -26,7 +23,9 @@ class JuegoPatron: SKScene {
     var lastUpdateTime: TimeInterval = 0
     var dt: TimeInterval = 0
     
+    
     var posicionInicial: CGPoint!
+    var hud = HUD()
     
     
     var radius: CGFloat { // radio de la nota en el corredor
@@ -35,8 +34,6 @@ class JuegoPatron: SKScene {
             return (Medidas.porcentajeTopSpace * size.height) / 5
         }
     }
-    
-   
     
     // MARK: Ciclo de vida de la escena
     
@@ -193,7 +190,7 @@ class JuegoPatron: SKScene {
         for child in guitarra.children {
             if let shapeNota = child as? ShapeNote, shapeNota.name == "notaFallada" || shapeNota.name == "notaAcertada" {
                 shapeNota.name = "nota"
-                if shapeNota.getTagShapeNote() != nil { // contiene información de nota
+                if shapeNota.getTagShapeNote() != nil && nivel.tipo != .alto { // contiene información de nota
                     shapeNota.fillColor = Colores.noteFillResaltada
                 } else {
                     shapeNota.fillColor = Colores.noteFill
@@ -339,4 +336,79 @@ class JuegoPatron: SKScene {
         tituloNodo.position = CGPoint(x:view!.frame.width / 2, y: view!.frame.height - 16)
         addChild(tituloNodo)
     }
+    
+    // MARK: HUD Setup
+    func setupHUD(){
+        hud.addTimer(time: Int(nivel!.tiempoJuego))
+    }
+    
+}
+
+
+/**
+ * Define un nivel de dificultad en el juego del reconocimiento de patrones
+ *
+ * La dificultad del juego se basa diferentes parámetros:
+ * - fácil: las notas o intervalos aparecen escritas en el patrón
+ * - medio: las notas o intervalos aparecen coloreados pero sin texto
+ * - alto : sólo aparecen las tónicas
+ * - muy alto: sólo aparece una tónica
+ *
+ * Además en cada uno de estos tipos la dificultad se ve también afectada por:
+ * - la velocidad de desplazamiento de las notas
+ * - número de vidas (o bolas que dejamos explotar)
+ * - tiempo que tenemos que aguantar en el nivel
+ */
+
+enum TipoNivel: Int {
+    case bajo = 0, medio, alto
+}
+
+
+class Nivel {
+    
+    static let tiempoMinimoRecorrerPantalla: Double = 20.0  // Indica la velocidad máxima de la bola
+    static let segundosParaIncrementoVelocidad: Double = 3  // Indica los segundos para incrementar la velocidad
+    static let incrementoVelocidad: Int = -2   // Habrá 2 segundos menos para que la bola recorra la pantalla
+    
+    var tipo: TipoNivel
+    var tiempoRecorrerPantalla: TimeInterval
+    var tiempoJuego: TimeInterval // Tiempo para completar cambio de nivel. 0 para tiempo infinito
+    var mostrarTodasLasTonicas: Bool
+    
+    init(tipo: TipoNivel, tiempoPantalla: TimeInterval, tiempoJuego: TimeInterval, mostrarTonicas: Bool) {
+        self.tipo = tipo
+        self.tiempoRecorrerPantalla = tiempoPantalla
+        self.tiempoJuego = tiempoJuego
+        self.mostrarTodasLasTonicas = mostrarTonicas
+    }
+    
+    convenience init(tipo: TipoNivel, tiempoPantalla: TimeInterval) {
+        self.init(tipo: tipo, tiempoPantalla: tiempoPantalla, tiempoJuego: 0, mostrarTonicas: true)
+    }
+    
+    
+    
+    // Algunos niveles para probar
+    class func getNivel(_ dificultad: Int) -> Nivel {
+        var nivel: Nivel
+        switch dificultad {
+        case 1:
+            nivel = Nivel(tipo: .bajo, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: true)
+        case 2:
+            nivel = Nivel(tipo: .bajo, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: false)
+        case 3:
+            nivel = Nivel(tipo: .medio, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: true)
+        case 4:
+            nivel = Nivel(tipo: .medio, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: false)
+        case 5:
+            nivel = Nivel(tipo: .alto, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: true)
+        case 6:
+            nivel = Nivel(tipo: .alto, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: false)
+        default:
+            nivel = Nivel(tipo: .bajo, tiempoPantalla: 40, tiempoJuego: 0, mostrarTonicas: true)
+        }
+        return nivel
+    }
+    
 }

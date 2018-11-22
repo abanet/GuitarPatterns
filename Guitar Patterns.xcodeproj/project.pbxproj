@@ -36,10 +36,10 @@
 		D3241A5C219D924B00AE7F27 /* EditorPatrones.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3241A5B219D924B00AE7F27 /* EditorPatrones.swift */; };
 		D333473021A357EF002C4CFC /* CGFloat+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D333472F21A357EF002C4CFC /* CGFloat+extension.swift */; };
 		D33686ED21997EF0008E9352 /* ConversorGuitarraArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33686EC21997EF0008E9352 /* ConversorGuitarraArray.swift */; };
+		D3753DC621A6C25C00A433D5 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3753DC521A6C25C00A433D5 /* HUD.swift */; };
 		D3AD301221A2CF9200BE8032 /* Escala.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AD301121A2CF9200BE8032 /* Escala.swift */; };
 		D3AD301421A2E31E00BE8032 /* DibujarPatron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AD301321A2E31E00BE8032 /* DibujarPatron.swift */; };
 		D3AD301621A3172300BE8032 /* JuegoPatron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AD301521A3172300BE8032 /* JuegoPatron.swift */; };
-		D3F14FA321A56B1C0055703E /* Nivel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F14FA221A56B1C0055703E /* Nivel.swift */; };
 		D3F14FA621A583CB0055703E /* PresentacionNivel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F14FA521A583CB0055703E /* PresentacionNivel.swift */; };
 		D3F9C0292191AE6400A349F7 /* Mastil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F9C0282191AE6400A349F7 /* Mastil.swift */; };
 		D3F9C02D2191B02900A349F7 /* GuitarraGrafica.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F9C02C2191B02900A349F7 /* GuitarraGrafica.swift */; };
@@ -77,10 +77,10 @@
 		D3241A5B219D924B00AE7F27 /* EditorPatrones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorPatrones.swift; sourceTree = "<group>"; };
 		D333472F21A357EF002C4CFC /* CGFloat+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CGFloat+extension.swift"; path = "Guitar Patterns/CGFloat+extension.swift"; sourceTree = SOURCE_ROOT; };
 		D33686EC21997EF0008E9352 /* ConversorGuitarraArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConversorGuitarraArray.swift; path = "Guitar Patterns/Modelo/ConversorGuitarraArray.swift"; sourceTree = SOURCE_ROOT; };
+		D3753DC521A6C25C00A433D5 /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		D3AD301121A2CF9200BE8032 /* Escala.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Escala.swift; sourceTree = "<group>"; };
 		D3AD301321A2E31E00BE8032 /* DibujarPatron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DibujarPatron.swift; sourceTree = "<group>"; };
 		D3AD301521A3172300BE8032 /* JuegoPatron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JuegoPatron.swift; sourceTree = "<group>"; };
-		D3F14FA221A56B1C0055703E /* Nivel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nivel.swift; sourceTree = "<group>"; };
 		D3F14FA521A583CB0055703E /* PresentacionNivel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentacionNivel.swift; sourceTree = "<group>"; };
 		D3F9C0282191AE6400A349F7 /* Mastil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mastil.swift; sourceTree = "<group>"; };
 		D3F9C02C2191B02900A349F7 /* GuitarraGrafica.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuitarraGrafica.swift; sourceTree = "<group>"; };
@@ -183,7 +183,6 @@
 				D31BEC11219EC9EB004376C7 /* Patron.swift */,
 				D31BEC13219F2320004376C7 /* Traste.swift */,
 				D3AD301121A2CF9200BE8032 /* Escala.swift */,
-				D3F14FA221A56B1C0055703E /* Nivel.swift */,
 			);
 			path = Modelo;
 			sourceTree = "<group>";
@@ -193,6 +192,7 @@
 			children = (
 				D3F9C02C2191B02900A349F7 /* GuitarraGrafica.swift */,
 				D322F89F219B27B5005AC8F4 /* ShapeNote.swift */,
+				D3753DC521A6C25C00A433D5 /* HUD.swift */,
 			);
 			path = Vistas;
 			sourceTree = "<group>";
@@ -290,7 +290,6 @@
 				D31BEC14219F2320004376C7 /* Traste.swift in Sources */,
 				D3198F6A21A4389D006A3D15 /* SKAction+Extension.swift in Sources */,
 				D3036DC8219099CA00E99120 /* AppDelegate.swift in Sources */,
-				D3F14FA321A56B1C0055703E /* Nivel.swift in Sources */,
 				D33686ED21997EF0008E9352 /* ConversorGuitarraArray.swift in Sources */,
 				D3F14FA621A583CB0055703E /* PresentacionNivel.swift in Sources */,
 				D3036DE02190AFC900E99120 /* Constantes.swift in Sources */,
@@ -299,6 +298,7 @@
 				D3241A5C219D924B00AE7F27 /* EditorPatrones.swift in Sources */,
 				D333473021A357EF002C4CFC /* CGFloat+extension.swift in Sources */,
 				D3F9C0292191AE6400A349F7 /* Mastil.swift in Sources */,
+				D3753DC621A6C25C00A433D5 /* HUD.swift in Sources */,
 				D3AD301421A2E31E00BE8032 /* DibujarPatron.swift in Sources */,
 				C0CA1788219359CE00814C0C /* Ejercicio.swift in Sources */,
 			);

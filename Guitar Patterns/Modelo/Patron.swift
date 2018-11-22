@@ -14,6 +14,8 @@ enum TipoPatron {
     case escala (TipoModo)
     case arpegio (TipoAcorde)
     case acorde (TipoAcorde)
+    case bordadura
+    case sextas
 }
 
 class Patron {
@@ -46,6 +48,10 @@ class Patron {
         case .arpegio:
             break
         case .acorde:
+            break
+        case .bordadura:
+            break
+        case .sextas:
             break
         }
         self.intervalica = Escala(modo:.jonico).intervalica
@@ -89,6 +95,9 @@ struct PatronesDdbb {
     var escalas: [Patron] = [Patron]()
     var arpegios: [Patron] = [Patron]()
     var acordes: [Patron] = [Patron]()
+    var bordaduras: [Patron] = [Patron]()
+    var sextas: [Patron] = [Patron]()
+    
     
     
     init() {
@@ -148,7 +157,7 @@ struct PatronesDdbb {
         escalaJonicaRaizQuintaD1.dedo = 1
         
         
-        let escalaJonicaRaizQuintaD2: Patron = Patron(tipo: .escala(.jonico), posTonica: PosicionTraste(cuerda: 6, traste: 3),
+        let escalaJonicaRaizQuintaD2: Patron = Patron(tipo: .escala(.jonico), posTonica: PosicionTraste(cuerda: 5, traste: 3),
                     incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: 2),
                                 Incremento(cuerda: -1, traste: -1), Incremento(cuerda: -1, traste: 0), Incremento(cuerda: -1, traste: 2),
                                 Incremento(cuerda: -2, traste: -1), Incremento(cuerda: -2, traste: 1), Incremento(cuerda: -2, traste: 2),
@@ -159,14 +168,14 @@ struct PatronesDdbb {
         escalaJonicaRaizQuintaD2.descripcion = "Escala mayor con tónica en quinta y dedo 2"
         escalaJonicaRaizQuintaD2.dedo = 2
         
-        let escalaJonicaRaizQuintaD4: Patron = Patron(tipo: .escala(.jonico), posTonica: PosicionTraste(cuerda: 6, traste: 2),
-                    incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: 2), Incremento(cuerda: 0, traste: 4),
-                    Incremento(cuerda: -1, traste: 0), Incremento(cuerda: -1, traste: 2), Incremento(cuerda: -1, traste: 4),
-                    Incremento(cuerda: -2, traste: 1), Incremento(cuerda: -2, traste: 2), Incremento(cuerda: -2, traste: 4),
-                    Incremento(cuerda: -3, traste: 1), Incremento(cuerda: -3, traste: 2), Incremento(cuerda: -3, traste: 4),
-                    Incremento(cuerda: -4, traste: 2), Incremento(cuerda: -4, traste: 4),
-                    Incremento(cuerda: -5, traste: 0), Incremento(cuerda: -5, traste: 2), Incremento(cuerda: -5, traste: 4),
-                                                                  ])
+        let escalaJonicaRaizQuintaD4: Patron = Patron(tipo: .escala(.jonico), posTonica: PosicionTraste(cuerda: 5, traste: 5),
+                    incrementos: [Incremento(cuerda: 0, traste: 0),
+                    Incremento(cuerda: -1, traste: -3), Incremento(cuerda: -1, traste: -1), Incremento(cuerda: -1, traste: 0),
+                    Incremento(cuerda: -2, traste: -1), Incremento(cuerda: -2, traste: -3),
+                    Incremento(cuerda: -3, traste: -3), Incremento(cuerda: -3, traste: -1), Incremento(cuerda: -3, traste: 0),
+                    Incremento(cuerda: -4, traste: -3), Incremento(cuerda: -4, traste: -1),
+                    Incremento(cuerda: -4, traste: 0)
+                  ])
         escalaJonicaRaizQuintaD4.nombre = "Escala mayor"
         escalaJonicaRaizQuintaD4.descripcion = "Escala mayor con tónica en quinta y dedo 4"
         escalaJonicaRaizQuintaD4.dedo = 4
@@ -216,7 +225,95 @@ struct PatronesDdbb {
         
         acordes.append(acordeMaj7BordonD1)
     }
+    
+    mutating func incorporarPatronesBordaduras(){
+        
+        // Bordaduras con tónica en 5 cuerda
+        // 6 patrones
+        // Patron 1
+        let bordadura5cuerda_1: Patron = Patron(tipo: .bordadura, posTonica: PosicionTraste(cuerda: 5, traste: 2),
+                                                incrementos: [Incremento(cuerda: 0, traste: 0),
+                                                              Incremento(cuerda: -2, traste: 4),
+                                                              Incremento(cuerda: -3, traste: 2),
+                                                              Incremento(cuerda: -4, traste: 4),
+                                                              ])
+        
+        bordadura5cuerda_1.nombre = "Bordadura con Tónica en quinta cuerda"
+        bordadura5cuerda_1.descripcion = "Bordadura con Tónica en quinta cuerda - Patrón 1"
+        bordaduras.append(bordadura5cuerda_1)
+        
+        // Patron 2
+        let bordadura5cuerda_2: Patron = Patron(tipo: .bordadura, posTonica: PosicionTraste(cuerda: 5, traste: 2),
+                                                incrementos: [Incremento(cuerda: 0, traste: 0),
+                                                              Incremento(cuerda: -2, traste: 2),
+                                                              Incremento(cuerda: -3, traste: 0),
+                                                              Incremento(cuerda: -4, traste: 2),
+                                                              ])
+        
+        bordadura5cuerda_2.nombre = "Bordadura con Tónica en quinta cuerda"
+        bordadura5cuerda_2.descripcion = "Bordadura con Tónica en quinta cuerda - Patrón 2"
+        bordaduras.append(bordadura5cuerda_2)
+        
+        // Patron 3
+        let bordadura5cuerda_3: Patron = Patron(tipo: .bordadura, posTonica: PosicionTraste(cuerda: 5, traste: 3),
+                                                incrementos: [Incremento(cuerda: 0, traste: 0),
+                                                              Incremento(cuerda: -2, traste: 1),
+                                                              Incremento(cuerda: -3, traste: -2),
+                                                              Incremento(cuerda: -4, traste: 0),
+                                                              ])
+        
+        bordadura5cuerda_3.nombre = "Bordadura con Tónica en quinta cuerda"
+        bordadura5cuerda_3.descripcion = "Bordadura con Tónica en quinta cuerda - Patrón 3"
+        bordaduras.append(bordadura5cuerda_3)
+        
+        // Patron 4
+        let bordadura5cuerda_4: Patron = Patron(tipo: .bordadura, posTonica: PosicionTraste(cuerda: 5, traste: 2),
+                                                incrementos: [Incremento(cuerda: 0, traste: 0),
+                                                              Incremento(cuerda: -1, traste: 2),
+                                                              Incremento(cuerda: -2, traste: 4),
+                                                              Incremento(cuerda: -3, traste: 2),
+                                                              ])
+        
+        bordadura5cuerda_4.nombre = "Bordadura con Tónica en quinta cuerda"
+        bordadura5cuerda_4.descripcion = "Bordadura con Tónica en quinta cuerda - Patrón 4"
+        bordaduras.append(bordadura5cuerda_4)
+        
+        // Patron 5
+        let bordadura5cuerda_5: Patron = Patron(tipo: .bordadura, posTonica: PosicionTraste(cuerda: 5, traste: 3),
+                                                incrementos: [Incremento(cuerda: 0, traste: 0),
+                                                              Incremento(cuerda: -1, traste: -1),
+                                                              Incremento(cuerda: -2, traste: 2),
+                                                              Incremento(cuerda: -3, traste: 0),
+                                                              ])
+        
+        bordadura5cuerda_5.nombre = "Bordadura con Tónica en quinta cuerda"
+        bordadura5cuerda_5.descripcion = "Bordadura con Tónica en quinta cuerda - Patrón 5"
+        bordaduras.append(bordadura5cuerda_5)
+        
+        // Patron 1
+        let bordadura5cuerda_6: Patron = Patron(tipo: .bordadura, posTonica: PosicionTraste(cuerda: 5, traste: 3),
+                                                incrementos: [Incremento(cuerda: 0, traste: 0),
+                                                              Incremento(cuerda: -1, traste: -1),
+                                                              Incremento(cuerda: -2, traste: 1),
+                                                              Incremento(cuerda: -3, traste: -2),
+                                                              ])
+        
+        bordadura5cuerda_6.nombre = "Bordadura con Tónica en quinta cuerda"
+        bordadura5cuerda_6.descripcion = "Bordadura con Tónica en quinta cuerda - Patrón 6"
+        bordaduras.append(bordadura5cuerda_6)
+        
+        
+    }
+    
+    mutating func incorporarPatronesSextas(){
+        
+    }
+    
+    
+    
 }
+
+
 
 
 

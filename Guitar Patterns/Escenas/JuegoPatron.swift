@@ -12,6 +12,7 @@ class JuegoPatron: SKScene {
     var guitarra: GuitarraGrafica!  // parte gráfica del mástil
     var patron  : Patron = PatronesDdbb().escalas[1] // el único q tenemos por ahora
     let xMinimaBolas: CGFloat = 50.0
+    var ruedaDentada: SKSpriteNode = SKSpriteNode(imageNamed: "ruedaDentada")
     
     var nivel: Nivel! // sustituir parámetros sueltos por esta variable de nivel
     lazy var tiempoRecorrerNotaPantalla: Double = nivel.tiempoRecorrerPantalla
@@ -26,7 +27,10 @@ class JuegoPatron: SKScene {
     
     var posicionInicial: CGPoint!
     var hud = HUD()
+    var elapsedTime: Int = 0
+    var startTime: Int?
     
+    var puntos: Double! // puntos que se llevan ganados
     
     var radius: CGFloat { // radio de la nota en el corredor
         get {
@@ -50,13 +54,10 @@ class JuegoPatron: SKScene {
         prepararSonidos()
         iniciarGuitarra()
         dibujarPatron()
-        if let nombre = patron.descripcion {
-            addTitulo(nombre)
-        }
-        //self.posicionInicial =  CGPoint(x: size.width + Medidas.marginSpace, y: (size.height - Medidas.topSpace) ) // comienza fuera de la pantalla
        self.posicionInicial =  CGPoint(x: size.width + Medidas.marginSpace, y: (size.height - Medidas.porcentajeTopSpace * size.height + 16))
         activarSalidaNotas()
-        
+        puntos = Puntuacion.getPuntuacionJuegoPatrones()
+        setupHUD()
         
     }
     
@@ -68,8 +69,10 @@ class JuegoPatron: SKScene {
             dt = 0
         }
         lastUpdateTime = currentTime
-        
+        updateHUD(currentTime: currentTime)
+        checkPasoNivel()
         comprobarDestruccionNodos()
+        puntos = puntos + 0.01
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -85,6 +88,7 @@ class JuegoPatron: SKScene {
                     // Marcar en verde como que está acertada pero hay q comprobar que no queden más
                     mynode.fillColor = SKColor.green
                     mynode.name = "notaAcertada"
+                    acierto()
                     hacerSonarNotaConTonica(mynode)
                     if !quedanNotas(withText: textoEnNota) {
                         // se acertaron todas, eliminar notaObjetivo y restaurar mástil para que todas las notas sean "nota"
@@ -105,10 +109,21 @@ class JuegoPatron: SKScene {
                     // colorear en gris para que se vea que se ha utilizado (modo ayuda on)
                     mynode.fillColor = Colores.fallo
                     mynode.name = "notaFallada"
+                    fallo()
                 }
                 //mynode.fillColor = Colores.noteFillResaltada
             }
         }
+    }
+    
+    // Ha ocurrido un acierto
+    func acierto() {
+        puntos += 20
+    }
+    
+    // Ha ocurrido un fallo
+    func fallo() {
+        puntos -= 10
     }
     
     // MARK: Generación de objetivos (spawnEnemy)
@@ -182,7 +197,7 @@ class JuegoPatron: SKScene {
     
     func dibujarPatron(){
         for posicion in patron.posiciones {
-            marcarNotasConIntervalo(pos: posicion, tipoEjercicio: nivel.tipo)
+            marcarNotasConIntervalo(pos: posicion, nivel: nivel)
         }
     }
     
@@ -190,7 +205,7 @@ class JuegoPatron: SKScene {
         for child in guitarra.children {
             if let shapeNota = child as? ShapeNote, shapeNota.name == "notaFallada" || shapeNota.name == "notaAcertada" {
                 shapeNota.name = "nota"
-                if shapeNota.getTagShapeNote() != nil && nivel.tipo != .alto { // contiene información de nota
+                if shapeNota.getTagShapeNote() != nil && nivel.marcarNotas { // contiene información de nota
                     shapeNota.fillColor = Colores.noteFillResaltada
                 } else {
                     shapeNota.fillColor = Colores.noteFill
@@ -210,22 +225,30 @@ class JuegoPatron: SKScene {
         }
     }
     
-    func marcarNotasConIntervalo(pos: PosicionTraste, tipoEjercicio: TipoNivel) {
+    func marcarNotasConIntervalo(pos: PosicionTraste, nivel: Nivel) {
         guitarra.enumerateChildNodes(withName: "nota") { nodoNota , _ in
             if let shapeNota = nodoNota as? ShapeNote {
                 if shapeNota.posicionEnMastil == pos {
-                    if tipoEjercicio == TipoNivel.bajo || tipoEjercicio == TipoNivel.medio {
+                    if nivel.marcarNotas {
                         shapeNota.setSelected(true)
                     }
                     let tonica = self.patron.getPosTonica()
                     if let intervalo = tonica.intervaloHasta(posicion: pos) {
-                        if tipoEjercicio == TipoNivel.bajo {
+                        if nivel.mostrarNotas {
                             shapeNota.setTextShapeNote(intervalo.rawValue)
                         }
                         shapeNota.setTagShapeNote(intervalo.rawValue)
                         shapeNota.setDistanciaDesdeTonica(valor: tonica.semitonosHasta(posicion: pos))
                         if intervalo == TipoIntervalo.octavajusta {
                             shapeNota.setTipoShapeNote(.tonica)
+                            if !nivel.mostrarTodasLasTonicas && pos != tonica {
+                                // Sólo hay q mostrar la primera. El resto la coloreamos como es debido
+                                if nivel.marcarNotas {
+                                shapeNota.fillColor = Colores.noteFillResaltada
+                                } else {
+                                    shapeNota.fillColor = Colores.noteFill
+                                }
+                            }
                         }
                     }
                 }
@@ -321,27 +344,59 @@ class JuegoPatron: SKScene {
         }
     }
     
-    
-    // MARK: Cuadro de mandos y puntuación
-    func addTitulo(_ titulo: String) {
-        let tituloNodo = SKLabelNode(fontNamed: "AvenirNext-Regular")
-        tituloNodo.text = titulo
-        tituloNodo.name = "titulo"
-        tituloNodo.fontSize = 22
-        tituloNodo.fontColor = Colores.indicaciones
-        tituloNodo.preferredMaxLayoutWidth = size.width - Medidas.marginSpace
-        tituloNodo.numberOfLines = 0
-        tituloNodo.verticalAlignmentMode = .center
-        tituloNodo.horizontalAlignmentMode = .center
-        tituloNodo.position = CGPoint(x:view!.frame.width / 2, y: view!.frame.height - 16)
-        addChild(tituloNodo)
-    }
-    
     // MARK: HUD Setup
     func setupHUD(){
-        hud.addTimer(time: Int(nivel!.tiempoJuego))
+        guard let view = view, let nivel = nivel else { return }
+        let position = CGPoint(x:view.frame.width - 100, y: view.frame.height - 32)
+        addChild(hud)
+        // Timer
+        hud.addTimer(time: Int(nivel.tiempoJuego), position: position)
+        // Title
+        if let nombre = patron.descripcion {
+            hud.add(message: nombre, position: CGPoint(x:view.frame.width / 2, y: view.frame.height - 32))
+        }
+        // Nivel
+        hud.add(message: "Nivel \(nivel.idNivel)", position: CGPoint(x: 50, y: view.frame.height - 32))
+        // Marcador
+        hud.addPuntos(position: CGPoint(x:50, y: view.frame.height - 60))
+        // Rueda
+        ruedaDentada.position = CGPoint(x: 150, y: size.height - 60)
+        ruedaDentada.scale(to: CGSize(width: 70, height: 70))
+        let girar = SKAction.rotate(byAngle: .pi * 2, duration: 5)
+        let girarForever = SKAction.repeatForever(girar)
+        ruedaDentada.run(girarForever)
+        addChild(ruedaDentada)
+        
     }
     
+    func updateHUD(currentTime: TimeInterval) {
+        if let startTime = startTime {
+            elapsedTime = Int(currentTime) - startTime
+        } else {
+            startTime = Int(currentTime) - elapsedTime
+        }
+        hud.updateTimer(time: Int(nivel.tiempoJuego) - elapsedTime)
+        hud.updatePuntosTo(Int(puntos))
+    }
+    
+    func checkPasoNivel() {
+        if Int(nivel.tiempoJuego) - elapsedTime <= 0 {
+            // hemos logrado finalizar el nivel. Pasamos al siguiente
+            Puntuacion.setPuntuacionJuegoPatrones(puntos: puntos)
+            presentarSiguienteNivel(nivel.siguienteNivel())
+        }
+    }
+    
+    func presentarSiguienteNivel(_ nivel: Int) {
+        let wait = SKAction.wait(forDuration: 2.0)
+        let presentarNivel = SKAction.run {
+            let scene = PresentacionNivel(size: self.size, level: nivel)
+            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+            self.view?.presentScene(scene, transition: reveal)
+            
+        }
+        self.run(SKAction.sequence([wait, presentarNivel]))
+    }
 }
 
 
@@ -360,31 +415,30 @@ class JuegoPatron: SKScene {
  * - tiempo que tenemos que aguantar en el nivel
  */
 
-enum TipoNivel: Int {
-    case bajo = 0, medio, alto
-}
-
-
 class Nivel {
     
     static let tiempoMinimoRecorrerPantalla: Double = 20.0  // Indica la velocidad máxima de la bola
     static let segundosParaIncrementoVelocidad: Double = 3  // Indica los segundos para incrementar la velocidad
     static let incrementoVelocidad: Int = -2   // Habrá 2 segundos menos para que la bola recorra la pantalla
     
-    var tipo: TipoNivel
+    var idNivel: Int
     var tiempoRecorrerPantalla: TimeInterval
     var tiempoJuego: TimeInterval // Tiempo para completar cambio de nivel. 0 para tiempo infinito
     var mostrarTodasLasTonicas: Bool
+    var mostrarNotas: Bool // true si se quiere enseñar el texto con los intervalos
+    var marcarNotas: Bool   // true si se quiere colorear las notas
     
-    init(tipo: TipoNivel, tiempoPantalla: TimeInterval, tiempoJuego: TimeInterval, mostrarTonicas: Bool) {
-        self.tipo = tipo
+    init(idNivel: Int, tiempoPantalla: TimeInterval, tiempoJuego: TimeInterval, mostrarTonicas: Bool, mostrarNotas: Bool, marcarNotas: Bool) {
+        self.idNivel = idNivel
         self.tiempoRecorrerPantalla = tiempoPantalla
         self.tiempoJuego = tiempoJuego
         self.mostrarTodasLasTonicas = mostrarTonicas
+        self.mostrarNotas = mostrarNotas
+        self.marcarNotas = marcarNotas
     }
     
-    convenience init(tipo: TipoNivel, tiempoPantalla: TimeInterval) {
-        self.init(tipo: tipo, tiempoPantalla: tiempoPantalla, tiempoJuego: 0, mostrarTonicas: true)
+    convenience init(idNivel: Int, tiempoPantalla: TimeInterval) {
+        self.init(idNivel: idNivel, tiempoPantalla: tiempoPantalla, tiempoJuego: 0, mostrarTonicas: true, mostrarNotas: true, marcarNotas: true)
     }
     
     
@@ -394,21 +448,29 @@ class Nivel {
         var nivel: Nivel
         switch dificultad {
         case 1:
-            nivel = Nivel(tipo: .bajo, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: true)
+            nivel = Nivel(idNivel: 1, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: true, mostrarNotas: true, marcarNotas: true)
+            
         case 2:
-            nivel = Nivel(tipo: .bajo, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: false)
+            nivel = Nivel(idNivel: 2, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: false, mostrarNotas: true, marcarNotas: true)
         case 3:
-            nivel = Nivel(tipo: .medio, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: true)
+            nivel = Nivel(idNivel: 3, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: true, mostrarNotas: false, marcarNotas: true)
         case 4:
-            nivel = Nivel(tipo: .medio, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: false)
+            nivel = Nivel(idNivel: 4, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: false, mostrarNotas: false, marcarNotas: true)
         case 5:
-            nivel = Nivel(tipo: .alto, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: true)
+            nivel = Nivel(idNivel: 5, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: true, mostrarNotas: false, marcarNotas: false)
         case 6:
-            nivel = Nivel(tipo: .alto, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: false)
+            nivel = Nivel(idNivel: 6, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: false, mostrarNotas: false, marcarNotas: false)
         default:
-            nivel = Nivel(tipo: .bajo, tiempoPantalla: 40, tiempoJuego: 0, mostrarTonicas: true)
+            nivel = Nivel(idNivel: 1, tiempoPantalla: 40, tiempoJuego: 0, mostrarTonicas: true, mostrarNotas: true, marcarNotas: true)
         }
         return nivel
     }
     
+    func siguienteNivel() -> Int {
+        if idNivel < 6 {
+            return idNivel + 1
+        } else {
+            return idNivel
+        }
+    }
 }

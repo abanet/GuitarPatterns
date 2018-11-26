@@ -36,6 +36,7 @@
 		D3241A5C219D924B00AE7F27 /* EditorPatrones.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3241A5B219D924B00AE7F27 /* EditorPatrones.swift */; };
 		D333473021A357EF002C4CFC /* CGFloat+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D333472F21A357EF002C4CFC /* CGFloat+extension.swift */; };
 		D33686ED21997EF0008E9352 /* ConversorGuitarraArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33686EC21997EF0008E9352 /* ConversorGuitarraArray.swift */; };
+		D360B48221AC520500B1DFF2 /* Puntuacion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D360B48121AC520500B1DFF2 /* Puntuacion.swift */; };
 		D3753DC621A6C25C00A433D5 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3753DC521A6C25C00A433D5 /* HUD.swift */; };
 		D3AD301221A2CF9200BE8032 /* Escala.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AD301121A2CF9200BE8032 /* Escala.swift */; };
 		D3AD301421A2E31E00BE8032 /* DibujarPatron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AD301321A2E31E00BE8032 /* DibujarPatron.swift */; };
@@ -77,6 +78,7 @@
 		D3241A5B219D924B00AE7F27 /* EditorPatrones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorPatrones.swift; sourceTree = "<group>"; };
 		D333472F21A357EF002C4CFC /* CGFloat+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CGFloat+extension.swift"; path = "Guitar Patterns/CGFloat+extension.swift"; sourceTree = SOURCE_ROOT; };
 		D33686EC21997EF0008E9352 /* ConversorGuitarraArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConversorGuitarraArray.swift; path = "Guitar Patterns/Modelo/ConversorGuitarraArray.swift"; sourceTree = SOURCE_ROOT; };
+		D360B48121AC520500B1DFF2 /* Puntuacion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puntuacion.swift; sourceTree = "<group>"; };
 		D3753DC521A6C25C00A433D5 /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		D3AD301121A2CF9200BE8032 /* Escala.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Escala.swift; sourceTree = "<group>"; };
 		D3AD301321A2E31E00BE8032 /* DibujarPatron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DibujarPatron.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				D31BEC11219EC9EB004376C7 /* Patron.swift */,
 				D31BEC13219F2320004376C7 /* Traste.swift */,
 				D3AD301121A2CF9200BE8032 /* Escala.swift */,
+				D360B48121AC520500B1DFF2 /* Puntuacion.swift */,
 			);
 			path = Modelo;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				D3036DCE219099CA00E99120 /* GameScene.swift in Sources */,
 				D3036DD0219099CA00E99120 /* GameViewController.swift in Sources */,
 				D3AD301221A2CF9200BE8032 /* Escala.swift in Sources */,
+				D360B48221AC520500B1DFF2 /* Puntuacion.swift in Sources */,
 				D322F8A0219B27B5005AC8F4 /* ShapeNote.swift in Sources */,
 				D31BEC14219F2320004376C7 /* Traste.swift in Sources */,
 				D3198F6A21A4389D006A3D15 /* SKAction+Extension.swift in Sources */,

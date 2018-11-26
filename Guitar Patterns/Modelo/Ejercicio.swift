@@ -27,6 +27,9 @@ enum TipoAccion {
   case mostrarFlecha
 }
 
+enum TipoNivel {
+    case bajo, medio, alto
+}
 /**
  Define un paso a realizar. Es un par que indica la descripción del paso que se realiza y el tipo de acción asociada.
 */

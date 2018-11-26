@@ -16,6 +16,7 @@ enum HUDSettings {
 class HUD: SKNode {
     
     var timerLabel: SKLabelNode?
+    var puntosLabel: SKLabelNode?
     
     override init() {
         super.init()
@@ -39,23 +40,32 @@ class HUD: SKNode {
     }
     
     func updateTimer(time: Int) {
+        guard time >= 0 else { return }
         let minutes = (time/60) % 60
         let seconds = time % 60
         let timeText = String(format: "%02d:%02d", minutes, seconds)
         timerLabel?.text = timeText
     }
     
-    func addTimer(time: Int) {
-        guard let scene = scene else { return }
-        // 1
-        let position = CGPoint(x: 0,
-                               y: scene.frame.height/2 - 10)
+    func addTimer(time: Int, position: CGPoint) {
+        guard scene != nil else { return }
         add(message: "Timer", position: position, fontSize: 24)
-        // 2
         timerLabel = childNode(withName: "Timer") as? SKLabelNode
-        timerLabel?.verticalAlignmentMode = .top
+        timerLabel?.verticalAlignmentMode = .bottom
         timerLabel?.fontName = "Menlo"
         updateTimer(time: time)
     }
     
+    func addPuntos(position: CGPoint) {
+        guard scene != nil else { return }
+        add(message: "Puntos", position: position, fontSize: 24)
+        puntosLabel = childNode(withName: "Puntos") as? SKLabelNode
+        puntosLabel?.verticalAlignmentMode = .bottom
+        puntosLabel?.fontName = "Menlo"
+        puntosLabel?.text = "000000"
+    }
+    
+    func updatePuntosTo(_ puntos: Int) {
+        puntosLabel?.text = String(format: "%06d", puntos)
+    }
 }

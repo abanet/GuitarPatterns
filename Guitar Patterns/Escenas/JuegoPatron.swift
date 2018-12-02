@@ -8,14 +8,15 @@
 
 import SpriteKit
 
+
 class JuegoPatron: SKScene {
     var guitarra: GuitarraGrafica!  // parte gráfica del mástil
-    var patron  : Patron = PatronesDdbb().escalas[1] // el único q tenemos por ahora
+    var patron  : Patron = (PatronesDdbb().diccionarioEscalas[.pentatonicaMenorBlues]?[0])!//PatronesDdbb().escalas[1]
     let xMinimaBolas: CGFloat = 50.0
     var ruedaDentada: SKSpriteNode = SKSpriteNode(imageNamed: "ruedaDentada")
     
     var nivel: Nivel! // sustituir parámetros sueltos por esta variable de nivel
-    lazy var tiempoRecorrerNotaPantalla: Double = nivel.tiempoRecorrerPantalla
+    lazy var tiempoRecorrerNotaPantalla: Double = nivel.tiempoRecorrerPantalla // indica la velocidad
 
     var objetivos: [String]  = [String]()
     var notasObjetivo: [SKShapeNode] = [SKShapeNode]()
@@ -31,6 +32,7 @@ class JuegoPatron: SKScene {
     var startTime: Int?
     
     var puntos: Double! // puntos que se llevan ganados
+    var numAciertos: Int = 0 // los contamos para incrementar velocidad cada 3 aciertos
     
     var radius: CGFloat { // radio de la nota en el corredor
         get {
@@ -41,8 +43,9 @@ class JuegoPatron: SKScene {
     
     // MARK: Ciclo de vida de la escena
     
-    init(size: CGSize, nivel: Nivel) {
+    init(size: CGSize, nivel: Nivel, patron: Patron) {
         self.nivel = nivel
+        self.patron = patron
         super.init(size: size)
     }
     
@@ -51,7 +54,9 @@ class JuegoPatron: SKScene {
     }
     
     override func didMove(to view: SKView) {
+        self.view?.backgroundColor = .blue
         prepararSonidos()
+        // playBackgroundMusic(filename: "CJonico.mp3")
         iniciarGuitarra()
         dibujarPatron()
        self.posicionInicial =  CGPoint(x: size.width + Medidas.marginSpace, y: (size.height - Medidas.porcentajeTopSpace * size.height + 16))
@@ -88,7 +93,6 @@ class JuegoPatron: SKScene {
                     // Marcar en verde como que está acertada pero hay q comprobar que no queden más
                     mynode.fillColor = SKColor.green
                     mynode.name = "notaAcertada"
-                    acierto()
                     hacerSonarNotaConTonica(mynode)
                     if !quedanNotas(withText: textoEnNota) {
                         // se acertaron todas, eliminar notaObjetivo y restaurar mástil para que todas las notas sean "nota"
@@ -96,6 +100,7 @@ class JuegoPatron: SKScene {
                         if let nota = notasObjetivo.first {
                             nota.removeFromParent()
                             notasObjetivo.remove(at: 0)
+                            acierto()
                         }
                         let espera = SKAction.wait(forDuration: 0.8)
                         run(espera) {
@@ -119,6 +124,19 @@ class JuegoPatron: SKScene {
     // Ha ocurrido un acierto
     func acierto() {
         puntos += 20
+        numAciertos += 1
+        if numAciertos == Velocidad.aciertosParaIncrementarVelocidad {
+            numAciertos = 0
+            // hay que eliminar todas las acciones en las notas objetivo y  cambiarlas por la nueva
+            tiempoRecorrerNotaPantalla += Velocidad.decrementoTiempoRecorrerPantalla
+            //cambiarVelocidadesNotas(tiempoRecorrerNotaPantalla)
+            self.removeAction(forKey: "salidaNotas")
+            run(SKAction.sequence([SKAction.wait(forDuration: 2.0),
+                                   SKAction.run {
+                                    self.activarSalidaNotas()
+                }]))
+            
+        }
     }
     
     // Ha ocurrido un fallo
@@ -126,36 +144,72 @@ class JuegoPatron: SKScene {
         puntos -= 10
     }
     
+    
+    func cambiarVelocidadesNotas(_ velocidad: Double) {
+        enumerateChildNodes(withName: "objetivo") {[unowned self] (node, _) in
+            // calculamos la nueva velocidad
+            let vel = node.position.x * CGFloat(self.tiempoRecorrerNotaPantalla) / self.size.width
+            let actionMove = SKAction.moveTo(x: 0, duration: Double(vel))
+            node.removeAllActions()
+            node.run(actionMove)
+        }
+    }
     // MARK: Generación de objetivos (spawnEnemy)
     func activarSalidaNotas() {
-        let periodo = Double((CGFloat(tiempoRecorrerNotaPantalla) * (radius * 4)) / size.width)
-        run(SKAction.repeatForever(
-            SKAction.sequence([SKAction.run() { [weak self] in
-                self?.spawnNota()
-                },
-            SKAction.wait(forDuration: periodo)])))
+        eliminarNotasObjetivo {
+            // se eliminan todas para evitar conflictos de velocidad...
+            let periodo = Double((CGFloat(tiempoRecorrerNotaPantalla) * (radius * 4)) / size.width)
+            run(SKAction.repeatForever(
+                SKAction.sequence([SKAction.run() { [weak self] in
+                    self?.spawnNota()
+                    },
+                    SKAction.wait(forDuration: periodo)])), withKey: "salidaNotas")
+        }
     }
     
     func spawnNota() {
         let contenidoAzar = obtenerObjetivo()
         objetivos.append(contenidoAzar)
         let nota = drawCircleAt(point: CGPoint.zero, withRadius: radius, withText: contenidoAzar)
-        //nota.physicsBody = SKPhysicsBody(circleOfRadius: radius)
-        //nota.physicsBody?.affectedByGravity = false
         nota.position = posicionInicial
+//        nota.physicsBody = SKPhysicsBody(circleOfRadius: radius)
+//        nota.physicsBody?.affectedByGravity = false
+//        nota.physicsBody?.usesPreciseCollisionDetection = true
+//        nota.physicsBody?.collisionBitMask = 0b001
+//        nota.physicsBody?.velocity.dx = -60.0
         addChild(nota)
         notasObjetivo.append(nota)
+        // movimiento constante
         let actionMove = SKAction.moveTo(x: 0, duration: tiempoRecorrerNotaPantalla)
         nota.run(actionMove)
     }
     
-    // Obtiene al azar un intervalo (de momento, en un futuro también nota según en que modo se esté de juego nota) del patrón.
+    func eliminarNotasObjetivo(completion: () -> Void) {
+        var pausa = 0.0
+        enumerateChildNodes(withName: "objetivo") {[unowned self] (node, _) in
+            pausa += 0.2
+            let group = SKAction.group([SKAction.fadeAlpha(to:0, duration: 0.4), self.collectcoin])
+            let secuencia = SKAction.sequence([SKAction.wait(forDuration: pausa), group, SKAction.run {
+                node.removeFromParent()
+                }])
+            node.run(secuencia)
+        }
+        objetivos.removeAll()
+        notasObjetivo.removeAll()
+        completion()
+    }
+    
+    // Obtiene al azar un intervalo que pertenece a la interválica que estamos tratando
     func obtenerObjetivo() -> String  {
         let objetivosPosibles = patron.intervalica
         var objetivoElegido: String
         repeat {
-            let pos = Int.random(in: 0..<objetivosPosibles.count)
-            objetivoElegido = patron.intervalica[pos].rawValue
+            var intervaloElegido: TipoIntervalo
+            repeat {
+                let pos = Int.random(in: 0..<objetivosPosibles.count)
+                intervaloElegido = patron.intervalica[pos]
+            } while intervaloElegido == TipoIntervalo.unisono || intervaloElegido == TipoIntervalo.octavajusta
+            objetivoElegido = intervaloElegido.rawValue
         } while objetivoElegido == ultimoObjetivoEscogido
         ultimoObjetivoEscogido = objetivoElegido
         return objetivoElegido
@@ -233,7 +287,7 @@ class JuegoPatron: SKScene {
                         shapeNota.setSelected(true)
                     }
                     let tonica = self.patron.getPosTonica()
-                    if let intervalo = tonica.intervaloHasta(posicion: pos) {
+                    if let intervalo = tonica.intervaloHasta(posicion: pos, intervalica: self.patron.intervalica) {
                         if nivel.mostrarNotas {
                             shapeNota.setTextShapeNote(intervalo.rawValue)
                         }
@@ -310,6 +364,7 @@ class JuegoPatron: SKScene {
     // MARK: Sonido
     
     // Sonidos
+    let collectcoin = SKAction.playSoundFileNamed("collectcoin.wav", waitForCompletion: true)
     let dropBomb = SKAction.playSoundFileNamed("bombDrop.wav", waitForCompletion: true)
     let sonidoC0 = SKAction.playSoundFileNamed("C0.wav", waitForCompletion: false)
     let sonidoC0s = SKAction.playSoundFileNamed("C0#.wav", waitForCompletion: false)
@@ -390,9 +445,9 @@ class JuegoPatron: SKScene {
     func presentarSiguienteNivel(_ nivel: Int) {
         let wait = SKAction.wait(forDuration: 2.0)
         let presentarNivel = SKAction.run {
-            let scene = PresentacionNivel(size: self.size, level: nivel)
+            let scene = PresentacionNivel(size: self.size, level: nivel, patron: self.patron)
             let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-            self.view?.presentScene(scene, transition: reveal)
+            self.view?.presentScene(scene)//, transition: reveal)
             
         }
         self.run(SKAction.sequence([wait, presentarNivel]))
@@ -448,18 +503,18 @@ class Nivel {
         var nivel: Nivel
         switch dificultad {
         case 1:
-            nivel = Nivel(idNivel: 1, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: true, mostrarNotas: true, marcarNotas: true)
+            nivel = Nivel(idNivel: 1, tiempoPantalla: 40, tiempoJuego: 60, mostrarTonicas: true, mostrarNotas: true, marcarNotas: true)
             
         case 2:
-            nivel = Nivel(idNivel: 2, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: false, mostrarNotas: true, marcarNotas: true)
+            nivel = Nivel(idNivel: 2, tiempoPantalla: 40, tiempoJuego: 60, mostrarTonicas: false, mostrarNotas: true, marcarNotas: true)
         case 3:
-            nivel = Nivel(idNivel: 3, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: true, mostrarNotas: false, marcarNotas: true)
+            nivel = Nivel(idNivel: 3, tiempoPantalla: 40, tiempoJuego: 60, mostrarTonicas: true, mostrarNotas: false, marcarNotas: true)
         case 4:
-            nivel = Nivel(idNivel: 4, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: false, mostrarNotas: false, marcarNotas: true)
+            nivel = Nivel(idNivel: 4, tiempoPantalla: 40, tiempoJuego: 60, mostrarTonicas: false, mostrarNotas: false, marcarNotas: true)
         case 5:
-            nivel = Nivel(idNivel: 5, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: true, mostrarNotas: false, marcarNotas: false)
+            nivel = Nivel(idNivel: 5, tiempoPantalla: 40, tiempoJuego: 60, mostrarTonicas: true, mostrarNotas: false, marcarNotas: false)
         case 6:
-            nivel = Nivel(idNivel: 6, tiempoPantalla: 40, tiempoJuego: 20, mostrarTonicas: false, mostrarNotas: false, marcarNotas: false)
+            nivel = Nivel(idNivel: 6, tiempoPantalla: 40, tiempoJuego: 60, mostrarTonicas: false, mostrarNotas: false, marcarNotas: false)
         default:
             nivel = Nivel(idNivel: 1, tiempoPantalla: 40, tiempoJuego: 0, mostrarTonicas: true, mostrarNotas: true, marcarNotas: true)
         }

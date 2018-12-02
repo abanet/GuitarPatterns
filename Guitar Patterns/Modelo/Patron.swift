@@ -7,11 +7,12 @@
 //
 
 import Foundation
+import UIKit
 
 
 
 enum TipoPatron {
-    case escala (TipoModo)
+    case escala (TipoEscala)
     case arpegio (TipoAcorde)
     case acorde (TipoAcorde)
     case bordadura
@@ -54,7 +55,14 @@ class Patron {
         case .sextas:
             break
         }
-        self.intervalica = Escala(modo:.jonico).intervalica
+        
+        switch tipo {
+        case .escala(let modo):
+            self.intervalica = Escala(modo: modo).intervalica
+        default:
+            self.intervalica = Escala(modo: .jonico).intervalica 
+        }
+        
     }
     
     
@@ -92,13 +100,14 @@ class Patron {
 
 // Definición de los patrones
 struct PatronesDdbb {
+    
     var escalas: [Patron] = [Patron]()
     var arpegios: [Patron] = [Patron]()
     var acordes: [Patron] = [Patron]()
     var bordaduras: [Patron] = [Patron]()
     var sextas: [Patron] = [Patron]()
     
-    
+    var diccionarioEscalas : [TipoEscala: [Patron]] =  [TipoEscala: [Patron]] ()
     
     init() {
         self.incorporarPatronesEscalas()
@@ -181,13 +190,273 @@ struct PatronesDdbb {
         escalaJonicaRaizQuintaD4.dedo = 4
         
       
+        // Patron pentatonica mayor
+        let pentatonicaMayor1: Patron = Patron(tipo: .escala(.pentatonicaMayor), posTonica: PosicionTraste(cuerda: 6, traste: 3),
+                incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: 2),
+                              Incremento(cuerda: -1, traste: -1), Incremento(cuerda: -1, traste: 2),
+                              Incremento(cuerda: -2, traste: -1), Incremento(cuerda: -2, traste: 2),
+                              Incremento(cuerda: -3, traste: -1), Incremento(cuerda: -3, traste: 1),
+                              Incremento(cuerda: -4, traste: 0), Incremento(cuerda: -4, traste: 2),
+                              Incremento(cuerda: -5, traste: 0), Incremento(cuerda: -5, traste: 2)
+            ])
+        pentatonicaMayor1.nombre = "Escala Pentatónica mayor"
+        pentatonicaMayor1.descripcion = "Escala Pentatónica mayor"
+        pentatonicaMayor1.dedo = 2 // se ataca la posición con el segundo dedo
+        
+        let pentatonicaMayor2: Patron = Patron(tipo: .escala(.pentatonicaMayor), posTonica: PosicionTraste(cuerda: 4, traste: 3), incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: 2),
+                        Incremento(cuerda: -1, traste: -1), Incremento(cuerda: -1, traste: 2),
+                        Incremento(cuerda: -2, traste: 0), Incremento(cuerda: -2, traste: 3),
+                        Incremento(cuerda: -3, traste: 0), Incremento(cuerda: -3, traste: 2),
+                        Incremento(cuerda: 1, traste: 0), Incremento(cuerda: 1, traste: 2),
+                        Incremento(cuerda: 2, traste: 0), Incremento(cuerda: 2, traste: 2)
+                    ])
+        pentatonicaMayor2.nombre = "Escala Pentatónica mayor - Segundo patrón"
+        pentatonicaMayor2.descripcion = "Escala Pentatónica mayor  - Segundo patrón"
+        pentatonicaMayor2.dedo = 2 // se ataca la posición con el segundo dedo
+   
+        let pentatonicaMayor3: Patron = Patron(tipo: .escala(.pentatonicaMayor), posTonica: PosicionTraste(cuerda: 5, traste: 5), incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: -3),                                             Incremento(cuerda: -1, traste: -3), Incremento(cuerda: -1, traste: -1),
+            Incremento(cuerda: -2, traste: -3), Incremento(cuerda: -2, traste: -1),
+            Incremento(cuerda: -3, traste: -2), Incremento(cuerda: -3, traste: 0),
+            Incremento(cuerda: -4, traste: -3), Incremento(cuerda: -4, traste: 0),
+            Incremento(cuerda: 1, traste: -3), Incremento(cuerda: 1, traste: 0)
+        ])
+        pentatonicaMayor3.nombre = "Escala Pentatónica mayor - Tercer patrón"
+        pentatonicaMayor3.descripcion = "Escala Pentatónica mayor  - Tercer patrón"
+        pentatonicaMayor3.dedo = 1 // se ataca la posición con el primer dedo
+        
+        
+        let pentatonicaMayor4: Patron = Patron(tipo: .escala(.pentatonicaMayor), posTonica: PosicionTraste(cuerda: 5, traste: 3), incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: 2),                                             Incremento(cuerda: -1, traste: -1), Incremento(cuerda: -1, traste: 2),
+            Incremento(cuerda: -2, traste: -1), Incremento(cuerda: -2, traste: 2),
+            Incremento(cuerda: -3, traste: 0), Incremento(cuerda: -3, traste: 2),
+            Incremento(cuerda: -4, traste: 0), Incremento(cuerda: -4, traste: 2),
+            Incremento(cuerda: 1, traste: 0), Incremento(cuerda: 1, traste: 2)
+            ])
+        pentatonicaMayor4.nombre = "Escala Pentatónica mayor - Cuarto patrón"
+        pentatonicaMayor4.descripcion = "Escala Pentatónica mayor  - Cuarto patrón"
+        pentatonicaMayor4.dedo = 2 // se ataca la posición con el primer dedo
+        
+        
+        let pentatonicaMayor5: Patron = Patron(tipo: .escala(.pentatonicaMayor), posTonica: PosicionTraste(cuerda: 6, traste: 5), incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: -3),                                             Incremento(cuerda: -1, traste: -3), Incremento(cuerda: -1, traste: -1),
+            Incremento(cuerda: -2, traste: -3), Incremento(cuerda: -2, traste: -1),
+            Incremento(cuerda: -3, traste: -3), Incremento(cuerda: -3, traste: -1),
+            Incremento(cuerda: -4, traste: -3), Incremento(cuerda: -4, traste: 0),
+            Incremento(cuerda: -5, traste: -3), Incremento(cuerda: -5, traste: 0)
+            ])
+        pentatonicaMayor5.nombre = "Escala Pentatónica mayor - Quinto patrón"
+        pentatonicaMayor5.descripcion = "Escala Pentatónica mayor  - Quinto patrón"
+        pentatonicaMayor5.dedo = 1 // se ataca la posición con el primer dedo
+        
+        
+        // Patron pentatonica mayor de blues
+        let pentatonicaMayorBlues1: Patron = Patron(tipo: .escala(.pentatonicaMayorBlues), posTonica: PosicionTraste(cuerda: 6, traste: 3),
+                    incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: 2), Incremento(cuerda: 0, traste: 3),
+                    Incremento(cuerda: -1, traste: -2),Incremento(cuerda: -1, traste: -1), Incremento(cuerda: -1, traste: 2),
+                    Incremento(cuerda: -2, traste: -1), Incremento(cuerda: -2, traste: 2),
+                    Incremento(cuerda: -3, traste: -1), Incremento(cuerda: -3, traste: 0), Incremento(cuerda: -3, traste: 1),
+                    Incremento(cuerda: -4, traste: 0), Incremento(cuerda: -4, traste: 2),
+                    Incremento(cuerda: -5, traste: 0), Incremento(cuerda: -5, traste: 2), Incremento(cuerda: -5, traste: 3)
+            ])
+        pentatonicaMayorBlues1.nombre = "Escala Pentatónica mayor de Blues"
+        pentatonicaMayorBlues1.descripcion = "Escala Pentatónica mayor de Blues"
+        pentatonicaMayorBlues1.dedo = 2 // se ataca la posición con el segundo dedo
+        
+        let pentatonicaMayorBlues2: Patron = Patron(tipo: .escala(.pentatonicaMayorBlues), posTonica: PosicionTraste(cuerda: 4, traste: 3),
+                    incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: 2), Incremento(cuerda: 0, traste: 3),
+                    Incremento(cuerda: -1, traste: -1), Incremento(cuerda: -1, traste: 2),
+                    Incremento(cuerda: -2, traste: 0), Incremento(cuerda: -2, traste: 3),
+                    Incremento(cuerda: -3, traste: 0), Incremento(cuerda: -3, traste: 1),Incremento(cuerda: -3, traste: 2),
+                    Incremento(cuerda: 1, traste: 0), Incremento(cuerda: 1, traste: 2),
+                    Incremento(cuerda: 2, traste: 0), Incremento(cuerda: 2, traste: 1),Incremento(cuerda: 2, traste: 2)
+            ])
+        pentatonicaMayorBlues2.nombre = "Escala Pentatónica mayor de Blues - Segundo patrón"
+        pentatonicaMayorBlues2.descripcion = "Escala Pentatónica mayor de Blues  - Segundo patrón"
+        pentatonicaMayorBlues2.dedo = 2 // se ataca la posición con el segundo dedo
+        
+        let pentatonicaMayorBlues3: Patron = Patron(tipo: .escala(.pentatonicaMayorBlues), posTonica: PosicionTraste(cuerda: 5, traste: 5),
+                    incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: -3),                                             Incremento(cuerda: -1, traste: -3), Incremento(cuerda: -1, traste: -1),
+                        Incremento(cuerda: -2, traste: -3), Incremento(cuerda: -2, traste: -2),Incremento(cuerda: -2, traste: -1),
+                        Incremento(cuerda: -3, traste: -2), Incremento(cuerda: -3, traste: 0), Incremento(cuerda: -3, traste: 1),
+                        Incremento(cuerda: -4, traste: -3), Incremento(cuerda: -4, traste: 0),
+                        Incremento(cuerda: 1, traste: -3), Incremento(cuerda: 1, traste: 0)
+            ])
+        pentatonicaMayorBlues3.nombre = "Escala Pentatónica mayor de Blues - Tercer patrón"
+        pentatonicaMayorBlues3.descripcion = "Escala Pentatónica mayor de Blues  - Tercer patrón"
+        pentatonicaMayorBlues3.dedo = 1 // se ataca la posición con el primer dedo
+        
+        
+        let pentatonicaMayorBlues4: Patron = Patron(tipo: .escala(.pentatonicaMayorBlues), posTonica: PosicionTraste(cuerda: 5, traste: 3),
+                    incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: 2), Incremento(cuerda: 0, traste: 3),                                           Incremento(cuerda: -1, traste: -1), Incremento(cuerda: -1, traste: 2),
+                        Incremento(cuerda: -2, traste: -1), Incremento(cuerda: -2, traste: 2),
+                        Incremento(cuerda: -3, traste: 0), Incremento(cuerda: -3, traste: 1), Incremento(cuerda: -3, traste: 2),
+                        Incremento(cuerda: -4, traste: 0), Incremento(cuerda: -4, traste: 2),
+                        Incremento(cuerda: 1, traste: 0), Incremento(cuerda: 1, traste: 2)
+            ])
+        pentatonicaMayorBlues4.nombre = "Escala Pentatónica mayor de Blues - Cuarto patrón"
+        pentatonicaMayorBlues4.descripcion = "Escala Pentatónica mayor de Blues - Cuarto patrón"
+        pentatonicaMayorBlues4.dedo = 2 // se ataca la posición con el primer dedo
+        
+        
+        let pentatonicaMayorBlues5: Patron = Patron(tipo: .escala(.pentatonicaMayorBlues), posTonica: PosicionTraste(cuerda: 6, traste: 5),
+                    incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: -3),                                             Incremento(cuerda: -1, traste: -3), Incremento(cuerda: -1, traste: -2), Incremento(cuerda: -1, traste: -1),
+                        Incremento(cuerda: -2, traste: -3), Incremento(cuerda: -2, traste: -1),
+                        Incremento(cuerda: -3, traste: -3), Incremento(cuerda: -3, traste: -1), Incremento(cuerda: -3, traste: 0),
+                        Incremento(cuerda: -4, traste: -3), Incremento(cuerda: -4, traste: 0),
+                        Incremento(cuerda: -5, traste: -3), Incremento(cuerda: -5, traste: 0)
+            ])
+        pentatonicaMayorBlues5.nombre = "Escala Pentatónica mayor de Blues- Quinto patrón"
+        pentatonicaMayorBlues5.descripcion = "Escala Pentatónica mayor de Blues - Quinto patrón"
+        pentatonicaMayorBlues5.dedo = 1 // se ataca la posición con el primer dedo
+        
+        // Pentatónica menor
+        let pentatonicaMenor1: Patron = Patron(tipo: .escala(.pentatonicaMenor), posTonica: PosicionTraste(cuerda: 6, traste: 2),
+                incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: 3),                                             Incremento(cuerda: -1, traste: 0), Incremento(cuerda: -1, traste: 2),
+                    Incremento(cuerda: -2, traste: 0), Incremento(cuerda: -2, traste: 2),
+                    Incremento(cuerda: -3, traste: 0), Incremento(cuerda: -3, traste: 2),
+                    Incremento(cuerda: -4, traste: 0), Incremento(cuerda: -4, traste: 3),
+                    Incremento(cuerda: -5, traste: 0), Incremento(cuerda: -5, traste: 3)
+            ])
+        pentatonicaMenor1.nombre = "Escala Pentatónica menor"
+        pentatonicaMenor1.descripcion = "Escala Pentatónica menor"
+        pentatonicaMenor1.dedo = 1 // se ataca la posición con el primer dedo
+        
+        let pentatonicaMenor2: Patron = Patron(tipo: .escala(.pentatonicaMenor), posTonica: PosicionTraste(cuerda: 4, traste: 2),
+            incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: 3),                                             Incremento(cuerda: -1, traste: 0), Incremento(cuerda: -1, traste: 2),
+                Incremento(cuerda: -2, traste: 1), Incremento(cuerda: -2, traste: 3),
+                Incremento(cuerda: -3, traste: 1), Incremento(cuerda: -3, traste: 3),
+                Incremento(cuerda: 1, traste: 0), Incremento(cuerda: 1, traste: 3),
+                Incremento(cuerda: 2, traste: 1), Incremento(cuerda: 2, traste: 3)
+            ])
+        pentatonicaMenor2.nombre = "Escala Pentatónica menor - segundo patrón"
+        pentatonicaMenor2.descripcion = "Escala Pentatónica menor - segundo patrón"
+        pentatonicaMenor2.dedo = 2 // se ataca la posición con el primer dedo
+        
+        let pentatonicaMenor3: Patron = Patron(tipo: .escala(.pentatonicaMenor), posTonica: PosicionTraste(cuerda: 5, traste: 4),
+                incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: -2),                                             Incremento(cuerda: -1, traste: 0), Incremento(cuerda: -1, traste: -2),
+                    Incremento(cuerda: -2, traste: -3), Incremento(cuerda: -2, traste: 0),
+                    Incremento(cuerda: -3, traste: -2), Incremento(cuerda: -3, traste: 1),
+                    Incremento(cuerda: -4, traste: -2), Incremento(cuerda: -4, traste: 0),
+                    Incremento(cuerda: 1, traste: -2), Incremento(cuerda: 1, traste: 0)
+            ])
+        pentatonicaMenor3.nombre = "Escala Pentatónica menor - tercer patrón"
+        pentatonicaMenor3.descripcion = "Escala Pentatónica menor - tercer patrón"
+        pentatonicaMenor3.dedo = 1 // se ataca la posición con el primer dedo
+        
+        let pentatonicaMenor4: Patron = Patron(tipo: .escala(.pentatonicaMenor), posTonica: PosicionTraste(cuerda: 5, traste: 2),
+                incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: 3),                                             Incremento(cuerda: -1, traste: 0), Incremento(cuerda: -1, traste: 2),
+                    Incremento(cuerda: -2, traste: 0), Incremento(cuerda: -2, traste: 2),
+                    Incremento(cuerda: -3, traste: 1), Incremento(cuerda: -3, traste: 3),
+                    Incremento(cuerda: -4, traste: 0), Incremento(cuerda: -4, traste: 3),
+                    Incremento(cuerda: 1, traste: 0), Incremento(cuerda: 1, traste: 3)
+            ])
+        pentatonicaMenor4.nombre = "Escala Pentatónica menor - cuarto patrón"
+        pentatonicaMenor4.descripcion = "Escala Pentatónica menor - cuarto patrón"
+        pentatonicaMenor4.dedo = 1 // se ataca la posición con el primer dedo
+        
+        let pentatonicaMenor5: Patron = Patron(tipo: .escala(.pentatonicaMenor), posTonica: PosicionTraste(cuerda: 6, traste: 4),
+                incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: -2),                                             Incremento(cuerda: -1, traste: -2), Incremento(cuerda: -1, traste: 0),
+                    Incremento(cuerda: -2, traste: -3), Incremento(cuerda: -2, traste: 0),
+                    Incremento(cuerda: -3, traste: -3), Incremento(cuerda: -3, traste: 0),
+                    Incremento(cuerda: -4, traste: -2), Incremento(cuerda: -4, traste: 0),
+                    Incremento(cuerda: -5, traste: -2), Incremento(cuerda: -5, traste: 0)
+            ])
+        pentatonicaMenor5.nombre = "Escala Pentatónica menor"
+        pentatonicaMenor5.descripcion = "Escala Pentatónica menor"
+        pentatonicaMenor5.dedo = 2 // se ataca la posición con el primer dedo
+        
+        // Pentatónica menor de blues
+        let pentatonicaMenorBlues1: Patron = Patron(tipo: .escala(.pentatonicaMenorBlues), posTonica: PosicionTraste(cuerda: 6, traste: 2),
+            incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: 3),                                             Incremento(cuerda: -1, traste: 0), Incremento(cuerda: -1, traste: 1), Incremento(cuerda: -1, traste: 2),
+                Incremento(cuerda: -2, traste: 0), Incremento(cuerda: -2, traste: 2),
+                Incremento(cuerda: -3, traste: 0), Incremento(cuerda: -3, traste: 2), Incremento(cuerda: -3, traste: 3),
+                Incremento(cuerda: -4, traste: -1), Incremento(cuerda: -4, traste: 0), Incremento(cuerda: -4, traste: 3),
+                Incremento(cuerda: -5, traste: 0), Incremento(cuerda: -5, traste: 3)
+            ])
+        pentatonicaMenorBlues1.nombre = "Escala Pentatónica menor de Blues"
+        pentatonicaMenorBlues1.descripcion = "Escala Pentatónica menor de Blues"
+        pentatonicaMenorBlues1.dedo = 1 // se ataca la posición con el primer dedo
+        
+        let pentatonicaMenorBlues2: Patron = Patron(tipo: .escala(.pentatonicaMenorBlues), posTonica: PosicionTraste(cuerda: 4, traste: 2),
+            incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: 3),                                             Incremento(cuerda: -1, traste: 0), Incremento(cuerda: -1, traste: 1), Incremento(cuerda: -1, traste: 2),
+                Incremento(cuerda: -2, traste: 1), Incremento(cuerda: -2, traste: 3),
+                Incremento(cuerda: -3, traste: 1), Incremento(cuerda: -3, traste: 3), Incremento(cuerda: -3, traste: 4),
+                Incremento(cuerda: 1, traste: -1), Incremento(cuerda: 1, traste: 0), Incremento(cuerda: 1, traste: 3),
+                Incremento(cuerda: 2, traste: 1), Incremento(cuerda: 2, traste: 3), Incremento(cuerda: 2, traste: 4)
+            ])
+        pentatonicaMenorBlues2.nombre = "Escala Pentatónica menor de Blues - segundo patrón"
+        pentatonicaMenorBlues2.descripcion = "Escala Pentatónica menor de Blues - segundo patrón"
+        pentatonicaMenorBlues2.dedo = 2 // se ataca la posición con el primer dedo
+        
+        let pentatonicaMenorBlues3: Patron = Patron(tipo: .escala(.pentatonicaMenorBlues), posTonica: PosicionTraste(cuerda: 5, traste: 4),
+            incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: -2),                                             Incremento(cuerda: -1, traste: -2), Incremento(cuerda: -1, traste: 0), Incremento(cuerda: -1, traste: 1),
+                Incremento(cuerda: -2, traste: -4), Incremento(cuerda: -2, traste: -3), Incremento(cuerda: -2, traste: 0),
+                Incremento(cuerda: -3, traste: -2), Incremento(cuerda: -3, traste: 1),
+                Incremento(cuerda: -4, traste: -2), Incremento(cuerda: -4, traste: -1), Incremento(cuerda: -4, traste: 0),
+                Incremento(cuerda: 1, traste: -2), Incremento(cuerda: 1, traste: -1), Incremento(cuerda: 1, traste: 0)
+            ])
+        pentatonicaMenor3.nombre = "Escala Pentatónica menor de Blues - tercer patrón"
+        pentatonicaMenor3.descripcion = "Escala Pentatónica menor de Blues - tercer patrón"
+        pentatonicaMenor3.dedo = 1 // se ataca la posición con el primer dedo
+        
+        let pentatonicaMenorBlues4: Patron = Patron(tipo: .escala(.pentatonicaMenorBlues), posTonica: PosicionTraste(cuerda: 5, traste: 2),
+            incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: 3),                                             Incremento(cuerda: -1, traste: 0), Incremento(cuerda: -1, traste: 1), Incremento(cuerda: -1, traste: 2),
+                Incremento(cuerda: -2, traste: 0), Incremento(cuerda: -2, traste: 2),
+                Incremento(cuerda: -3, traste: 1), Incremento(cuerda: -3, traste: 3), Incremento(cuerda: -3, traste: 4),
+                Incremento(cuerda: -4, traste: -1), Incremento(cuerda: -4, traste: 0), Incremento(cuerda: -4, traste: 3),
+                Incremento(cuerda: 1, traste: -1), Incremento(cuerda: 1, traste: 0), Incremento(cuerda: 1, traste: 3)
+            ])
+        pentatonicaMenorBlues4.nombre = "Escala Pentatónica menor de Blues - cuarto patrón"
+        pentatonicaMenorBlues4.descripcion = "Escala Pentatónica menor de Blues - cuarto patrón"
+        pentatonicaMenorBlues4.dedo = 1 // se ataca la posición con el primer dedo
+        
+        let pentatonicaMenorBlues5: Patron = Patron(tipo: .escala(.pentatonicaMenorBlues), posTonica: PosicionTraste(cuerda: 6, traste: 5),
+            incrementos: [Incremento(cuerda: 0, traste: 0), Incremento(cuerda: 0, traste: -2),                                             Incremento(cuerda: -1, traste: -2), Incremento(cuerda: -1, traste: 0), Incremento(cuerda: -1, traste: 1),
+                Incremento(cuerda: -2, traste: -4), Incremento(cuerda: -2, traste: -3), Incremento(cuerda: -2, traste: 0),
+                Incremento(cuerda: -3, traste: -3), Incremento(cuerda: -3, traste: 0),
+                Incremento(cuerda: -4, traste: -2), Incremento(cuerda: -4, traste: -1), Incremento(cuerda: -4, traste: 0),
+                Incremento(cuerda: -5, traste: -2), Incremento(cuerda: -5, traste: 0)
+            ])
+        pentatonicaMenorBlues5.nombre = "Escala Pentatónica menor de Blues - quinto patrón"
+        pentatonicaMenorBlues5.descripcion = "Escala Pentatónica menor de Blues - quinto patrón"
+        pentatonicaMenorBlues5.dedo = 2 // se ataca la posición con el primer dedo
+        
+        // Incorporamos todos los patrones
         escalas.append(escalaJonicaRaizBordonD1)
         escalas.append(escalaJonicaRaizBordonD2)
         escalas.append(escalaJonicaRaizBordonD4)
         escalas.append(escalaJonicaRaizQuintaD1)
         escalas.append(escalaJonicaRaizQuintaD2)
         escalas.append(escalaJonicaRaizQuintaD4)
-       
+        
+        escalas.append(pentatonicaMayor1)
+        escalas.append(pentatonicaMayor2)
+        escalas.append(pentatonicaMayor3)
+        escalas.append(pentatonicaMayor4)
+        escalas.append(pentatonicaMayor5)
+        
+        escalas.append(pentatonicaMayorBlues1)
+        escalas.append(pentatonicaMayorBlues2)
+        escalas.append(pentatonicaMayorBlues3)
+        escalas.append(pentatonicaMayorBlues4)
+        escalas.append(pentatonicaMayorBlues5)
+        
+        escalas.append(pentatonicaMenor1)
+        escalas.append(pentatonicaMenor2)
+        escalas.append(pentatonicaMenor3)
+        escalas.append(pentatonicaMenor4)
+        escalas.append(pentatonicaMenor5)
+        
+        escalas.append(pentatonicaMenorBlues1)
+        escalas.append(pentatonicaMenorBlues2)
+        escalas.append(pentatonicaMenorBlues3)
+        escalas.append(pentatonicaMenorBlues4)
+        escalas.append(pentatonicaMenorBlues5)
+        
+        // Incorporamos mejor a un diccionario
+        diccionarioEscalas[.jonico] = [escalaJonicaRaizBordonD1, escalaJonicaRaizBordonD2, escalaJonicaRaizBordonD4, escalaJonicaRaizQuintaD1, escalaJonicaRaizQuintaD2, escalaJonicaRaizQuintaD4]
+        diccionarioEscalas[.pentatonicaMayor] = [pentatonicaMayor1, pentatonicaMayor2, pentatonicaMayor3, pentatonicaMayor4, pentatonicaMayor5]
+        diccionarioEscalas[.pentatonicaMayorBlues] = [pentatonicaMayorBlues1, pentatonicaMayorBlues2, pentatonicaMayorBlues3, pentatonicaMayorBlues4, pentatonicaMayorBlues5]
+       diccionarioEscalas[.pentatonicaMenor] = [pentatonicaMenor1, pentatonicaMenor2, pentatonicaMenor3, pentatonicaMenor4, pentatonicaMenor5]
+        diccionarioEscalas[.pentatonicaMenorBlues] = [pentatonicaMenorBlues1, pentatonicaMenorBlues2, pentatonicaMenorBlues3, pentatonicaMenorBlues4, pentatonicaMenorBlues5]
     }
     
     
@@ -309,9 +578,9 @@ struct PatronesDdbb {
         
     }
     
-    
-    
 }
+
+
 
 
 

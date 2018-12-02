@@ -15,6 +15,8 @@
 		D3036DD5219099CB00E99120 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3036DD4219099CB00E99120 /* Assets.xcassets */; };
 		D3036DD8219099CB00E99120 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3036DD6219099CB00E99120 /* LaunchScreen.storyboard */; };
 		D3036DE02190AFC900E99120 /* Constantes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3036DDF2190AFC900E99120 /* Constantes.swift */; };
+		D310EAC621AD51E3008DCB91 /* Musica.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310EAC521AD51E3008DCB91 /* Musica.swift */; };
+		D310EACA21AD5481008DCB91 /* CJonico.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D310EAC921AD5481008DCB91 /* CJonico.mp3 */; };
 		D3198F6A21A4389D006A3D15 /* SKAction+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3198F6921A4389D006A3D15 /* SKAction+Extension.swift */; };
 		D3198F6C21A469CD006A3D15 /* C0.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3198F6B21A469CD006A3D15 /* C0.wav */; };
 		D3198F7921A46A47006A3D15 /* D0#.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3198F6E21A46A46006A3D15 /* D0#.wav */; };
@@ -41,6 +43,8 @@
 		D3AD301221A2CF9200BE8032 /* Escala.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AD301121A2CF9200BE8032 /* Escala.swift */; };
 		D3AD301421A2E31E00BE8032 /* DibujarPatron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AD301321A2E31E00BE8032 /* DibujarPatron.swift */; };
 		D3AD301621A3172300BE8032 /* JuegoPatron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AD301521A3172300BE8032 /* JuegoPatron.swift */; };
+		D3C2E1EC21AE9B9900A74E64 /* SelectorEscalaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C2E1EB21AE9B9900A74E64 /* SelectorEscalaViewController.swift */; };
+		D3C2E1EE21AEC65B00A74E64 /* collectcoin.wav in Resources */ = {isa = PBXBuildFile; fileRef = D3C2E1ED21AEC65B00A74E64 /* collectcoin.wav */; };
 		D3F14FA621A583CB0055703E /* PresentacionNivel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F14FA521A583CB0055703E /* PresentacionNivel.swift */; };
 		D3F9C0292191AE6400A349F7 /* Mastil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F9C0282191AE6400A349F7 /* Mastil.swift */; };
 		D3F9C02D2191B02900A349F7 /* GuitarraGrafica.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F9C02C2191B02900A349F7 /* GuitarraGrafica.swift */; };
@@ -57,19 +61,21 @@
 		D3036DD7219099CB00E99120 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D3036DD9219099CB00E99120 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3036DDF2190AFC900E99120 /* Constantes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constantes.swift; sourceTree = "<group>"; };
+		D310EAC521AD51E3008DCB91 /* Musica.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Musica.swift; path = "Guitar Patterns/Modelo/Musica.swift"; sourceTree = SOURCE_ROOT; };
+		D310EAC921AD5481008DCB91 /* CJonico.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = CJonico.mp3; path = backingtracks/CJonico.mp3; sourceTree = SOURCE_ROOT; };
 		D3198F6921A4389D006A3D15 /* SKAction+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SKAction+Extension.swift"; path = "Guitar Patterns/SKAction+Extension.swift"; sourceTree = SOURCE_ROOT; };
-		D3198F6B21A469CD006A3D15 /* C0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = C0.wav; path = "Guitar Patterns/sonidos/C0.wav"; sourceTree = SOURCE_ROOT; };
-		D3198F6E21A46A46006A3D15 /* D0#.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "D0#.wav"; path = "notas/D0#.wav"; sourceTree = SOURCE_ROOT; };
-		D3198F6F21A46A46006A3D15 /* F0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = F0.wav; path = notas/F0.wav; sourceTree = SOURCE_ROOT; };
-		D3198F7021A46A46006A3D15 /* G0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = G0.wav; path = notas/G0.wav; sourceTree = SOURCE_ROOT; };
-		D3198F7121A46A46006A3D15 /* C0#.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "C0#.wav"; path = "notas/C0#.wav"; sourceTree = SOURCE_ROOT; };
-		D3198F7221A46A46006A3D15 /* D0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = D0.wav; path = notas/D0.wav; sourceTree = SOURCE_ROOT; };
-		D3198F7321A46A46006A3D15 /* B0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = B0.wav; path = notas/B0.wav; sourceTree = SOURCE_ROOT; };
-		D3198F7421A46A46006A3D15 /* A0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = A0.wav; path = notas/A0.wav; sourceTree = SOURCE_ROOT; };
-		D3198F7521A46A46006A3D15 /* A0#.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "A0#.wav"; path = "notas/A0#.wav"; sourceTree = SOURCE_ROOT; };
-		D3198F7621A46A47006A3D15 /* G0#.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "G0#.wav"; path = "notas/G0#.wav"; sourceTree = SOURCE_ROOT; };
-		D3198F7721A46A47006A3D15 /* E0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = E0.wav; path = notas/E0.wav; sourceTree = SOURCE_ROOT; };
-		D3198F7821A46A47006A3D15 /* F0#.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "F0#.wav"; path = "notas/F0#.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F6B21A469CD006A3D15 /* C0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = C0.wav; path = "Guitar Patterns/sonidos/notas/C0.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F6E21A46A46006A3D15 /* D0#.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "D0#.wav"; path = "Guitar Patterns/sonidos/notas/D0#.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F6F21A46A46006A3D15 /* F0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = F0.wav; path = "Guitar Patterns/sonidos/notas/F0.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F7021A46A46006A3D15 /* G0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = G0.wav; path = "Guitar Patterns/sonidos/notas/G0.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F7121A46A46006A3D15 /* C0#.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "C0#.wav"; path = "Guitar Patterns/sonidos/notas/C0#.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F7221A46A46006A3D15 /* D0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = D0.wav; path = "Guitar Patterns/sonidos/notas/D0.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F7321A46A46006A3D15 /* B0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = B0.wav; path = "Guitar Patterns/sonidos/notas/B0.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F7421A46A46006A3D15 /* A0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = A0.wav; path = "Guitar Patterns/sonidos/notas/A0.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F7521A46A46006A3D15 /* A0#.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "A0#.wav"; path = "Guitar Patterns/sonidos/notas/A0#.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F7621A46A47006A3D15 /* G0#.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "G0#.wav"; path = "Guitar Patterns/sonidos/notas/G0#.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F7721A46A47006A3D15 /* E0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = E0.wav; path = "Guitar Patterns/sonidos/notas/E0.wav"; sourceTree = SOURCE_ROOT; };
+		D3198F7821A46A47006A3D15 /* F0#.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "F0#.wav"; path = "Guitar Patterns/sonidos/notas/F0#.wav"; sourceTree = SOURCE_ROOT; };
 		D3198F8421A46A9A006A3D15 /* bombDrop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bombDrop.wav; sourceTree = "<group>"; };
 		D31BEC11219EC9EB004376C7 /* Patron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Patron.swift; sourceTree = "<group>"; };
 		D31BEC13219F2320004376C7 /* Traste.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Traste.swift; sourceTree = "<group>"; };
@@ -83,6 +89,8 @@
 		D3AD301121A2CF9200BE8032 /* Escala.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Escala.swift; sourceTree = "<group>"; };
 		D3AD301321A2E31E00BE8032 /* DibujarPatron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DibujarPatron.swift; sourceTree = "<group>"; };
 		D3AD301521A3172300BE8032 /* JuegoPatron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JuegoPatron.swift; sourceTree = "<group>"; };
+		D3C2E1EB21AE9B9900A74E64 /* SelectorEscalaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorEscalaViewController.swift; sourceTree = "<group>"; };
+		D3C2E1ED21AEC65B00A74E64 /* collectcoin.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = collectcoin.wav; sourceTree = "<group>"; };
 		D3F14FA521A583CB0055703E /* PresentacionNivel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentacionNivel.swift; sourceTree = "<group>"; };
 		D3F9C0282191AE6400A349F7 /* Mastil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mastil.swift; sourceTree = "<group>"; };
 		D3F9C02C2191B02900A349F7 /* GuitarraGrafica.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuitarraGrafica.swift; sourceTree = "<group>"; };
@@ -105,6 +113,7 @@
 				D33686EC21997EF0008E9352 /* ConversorGuitarraArray.swift */,
 				D333472F21A357EF002C4CFC /* CGFloat+extension.swift */,
 				D3198F6921A4389D006A3D15 /* SKAction+Extension.swift */,
+				D310EAC521AD51E3008DCB91 /* Musica.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -135,6 +144,7 @@
 				D3036DC7219099CA00E99120 /* AppDelegate.swift */,
 				D3F14FA421A583910055703E /* Escenas */,
 				D3036DCF219099CA00E99120 /* GameViewController.swift */,
+				D3C2E1EB21AE9B9900A74E64 /* SelectorEscalaViewController.swift */,
 				D3036DD1219099CA00E99120 /* Main.storyboard */,
 				D3036DD4219099CB00E99120 /* Assets.xcassets */,
 				D3036DD6219099CB00E99120 /* LaunchScreen.storyboard */,
@@ -143,10 +153,9 @@
 			path = "Guitar Patterns";
 			sourceTree = "<group>";
 		};
-		D3198F6D21A46A0D006A3D15 /* sonidos */ = {
+		D310EAC721AD5463008DCB91 /* notas */ = {
 			isa = PBXGroup;
 			children = (
-				D3198F8421A46A9A006A3D15 /* bombDrop.wav */,
 				D3198F6B21A469CD006A3D15 /* C0.wav */,
 				D3198F7421A46A46006A3D15 /* A0.wav */,
 				D3198F7521A46A46006A3D15 /* A0#.wav */,
@@ -159,6 +168,25 @@
 				D3198F7821A46A47006A3D15 /* F0#.wav */,
 				D3198F7021A46A46006A3D15 /* G0.wav */,
 				D3198F7621A46A47006A3D15 /* G0#.wav */,
+			);
+			path = notas;
+			sourceTree = "<group>";
+		};
+		D310EAC821AD5470008DCB91 /* back */ = {
+			isa = PBXGroup;
+			children = (
+				D310EAC921AD5481008DCB91 /* CJonico.mp3 */,
+			);
+			path = back;
+			sourceTree = "<group>";
+		};
+		D3198F6D21A46A0D006A3D15 /* sonidos */ = {
+			isa = PBXGroup;
+			children = (
+				D3C2E1ED21AEC65B00A74E64 /* collectcoin.wav */,
+				D310EAC821AD5470008DCB91 /* back */,
+				D310EAC721AD5463008DCB91 /* notas */,
+				D3198F8421A46A9A006A3D15 /* bombDrop.wav */,
 			);
 			path = sonidos;
 			sourceTree = "<group>";
@@ -266,10 +294,12 @@
 				D3198F7C21A46A47006A3D15 /* C0#.wav in Resources */,
 				D3036DD3219099CA00E99120 /* Main.storyboard in Resources */,
 				D3198F7921A46A47006A3D15 /* D0#.wav in Resources */,
+				D3C2E1EE21AEC65B00A74E64 /* collectcoin.wav in Resources */,
 				D3198F8221A46A47006A3D15 /* E0.wav in Resources */,
 				D3198F6C21A469CD006A3D15 /* C0.wav in Resources */,
 				D3036DD5219099CB00E99120 /* Assets.xcassets in Resources */,
 				D3198F7B21A46A47006A3D15 /* G0.wav in Resources */,
+				D310EACA21AD5481008DCB91 /* CJonico.mp3 in Resources */,
 				D3198F7D21A46A47006A3D15 /* D0.wav in Resources */,
 				D3198F8521A46A9A006A3D15 /* bombDrop.wav in Resources */,
 				D3036DD8219099CB00E99120 /* LaunchScreen.storyboard in Resources */,
@@ -289,6 +319,8 @@
 				D3036DCE219099CA00E99120 /* GameScene.swift in Sources */,
 				D3036DD0219099CA00E99120 /* GameViewController.swift in Sources */,
 				D3AD301221A2CF9200BE8032 /* Escala.swift in Sources */,
+				D3C2E1EC21AE9B9900A74E64 /* SelectorEscalaViewController.swift in Sources */,
+				D310EAC621AD51E3008DCB91 /* Musica.swift in Sources */,
 				D360B48221AC520500B1DFF2 /* Puntuacion.swift in Sources */,
 				D322F8A0219B27B5005AC8F4 /* ShapeNote.swift in Sources */,
 				D31BEC14219F2320004376C7 /* Traste.swift in Sources */,

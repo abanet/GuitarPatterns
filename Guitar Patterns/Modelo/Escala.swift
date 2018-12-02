@@ -9,36 +9,45 @@
 import Foundation
 
 
-enum TipoModo {
-    case jonico
-    case dorico
-    case frigio
-    case lidio
-    case mixolidio
-    case eolico
-    case locrio
+enum TipoEscala: String, CaseIterable {
+    case jonico = "Modo Jónico"
+    case dorico = "Modo Dórico"
+    case frigio = "Modo Frigio"
+    case lidio = "Modo Lidio"
+    case mixolidio = "Modo Mixolidio"
+    case eolico = "Modo Eólico"
+    case locrio = "Modo Locrio"
+    case pentatonicaMayor = "Pentatónica mayor"
+    case pentatonicaMenor = "Pentatónica menor"
+    case pentatonicaMayorBlues = "Pentatónica mayor de blues"
+    case pentatonicaMenorBlues = "Pentatónica menor de blues"
 }
 
 
 
 class Escala {
-    var modo: TipoModo
+    var modo: TipoEscala
     var intervalica: [TipoIntervalo]
     var mayor: Bool
     
-    let escalas: [TipoModo:[TipoIntervalo]] = [
-    .jonico: [TipoIntervalo.segundamayor, .terceramayor, .cuartajusta, .quintajusta, .sextamayor, .septimamayor],
-    .dorico: [TipoIntervalo.segundamayor, .terceramenor, .cuartajusta, .quintajusta, .sextamayor, .septimamenor],
-    .frigio: [TipoIntervalo.segundamenor, .terceramenor, .cuartajusta, .quintajusta, .sextamenor, .septimamenor],
-    .lidio : [TipoIntervalo.segundamayor, .terceramayor, .cuartaaumentada, .quintajusta, .sextamayor, .septimamayor],
-    .mixolidio: [TipoIntervalo.segundamayor, .terceramayor, .cuartajusta, .quintajusta, .sextamayor, .septimamenor],
-    .eolico: [TipoIntervalo.segundamayor, .terceramenor, .cuartajusta, .quintajusta, .sextamenor, .septimamenor],
-    .locrio: [TipoIntervalo.segundamenor, .terceramenor, .cuartajusta, .quintadisminuida, .sextamenor, .septimamenor]
+    let escalas: [TipoEscala:[TipoIntervalo]] = [
+    .jonico: [TipoIntervalo.segundamayor, .terceramayor, .cuartajusta, .quintajusta, .sextamayor, .septimamayor, .unisono, .octavajusta],
+    .dorico: [TipoIntervalo.segundamayor, .terceramenor, .cuartajusta, .quintajusta, .sextamayor, .septimamenor, .unisono, .octavajusta],
+    .frigio: [TipoIntervalo.segundamenor, .terceramenor, .cuartajusta, .quintajusta, .sextamenor, .septimamenor, .unisono, .octavajusta],
+    .lidio : [TipoIntervalo.segundamayor, .terceramayor, .cuartaaumentada, .quintajusta, .sextamayor, .septimamayor, .unisono, .octavajusta],
+    .mixolidio: [TipoIntervalo.segundamayor, .terceramayor, .cuartajusta, .quintajusta, .sextamayor, .septimamenor, .unisono, .octavajusta],
+    .eolico: [TipoIntervalo.segundamayor, .terceramenor, .cuartajusta, .quintajusta, .sextamenor, .septimamenor, .unisono, .octavajusta],
+    .locrio: [TipoIntervalo.segundamenor, .terceramenor, .cuartajusta, .quintadisminuida, .sextamenor, .septimamenor, .unisono, .octavajusta],
+    .pentatonicaMayor:
+        [TipoIntervalo.segundamayor, .terceramayor, .quintajusta, .sextamayor, .unisono, .octavajusta],
+    .pentatonicaMenor: [TipoIntervalo.terceramenor, .cuartajusta, .quintajusta, .septimamenor, .unisono, .octavajusta],
+    .pentatonicaMayorBlues: [TipoIntervalo.segundamayor, .terceramenor, .terceramayor, .quintajusta, .sextamayor, .unisono, .octavajusta],
+    .pentatonicaMenorBlues: [TipoIntervalo.terceramenor, .cuartajusta, .quintadisminuida, .quintajusta, .septimamenor, .unisono, .octavajusta]
     ]
     
-    init(modo: TipoModo) {
+    init(modo: TipoEscala) {
         self.modo = modo
-        if modo == .jonico || modo == .lidio || modo == .mixolidio {
+        if modo == .jonico || modo == .lidio || modo == .mixolidio || modo == .pentatonicaMayor || modo == .pentatonicaMayorBlues {
             mayor = true
         } else {
             mayor = false

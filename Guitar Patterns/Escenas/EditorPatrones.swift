@@ -34,7 +34,7 @@ class EditorPatrones: SKScene {
                     patron.addPosicion(mynode.posicionEnMastil)
                     if existeTonica { // podemos poner el intervalo
                         let origen = patron.getPosTonica()
-                        if let intervalo = origen.intervaloHasta(posicion: mynode.posicionEnMastil) {
+                        if let intervalo = origen.intervaloHasta(posicion: mynode.posicionEnMastil, intervalica: patron.intervalica) {
                             mynode.setTextShapeNote(intervalo.rawValue)
                         }
                     }

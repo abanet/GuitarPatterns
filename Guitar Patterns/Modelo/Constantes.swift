@@ -55,6 +55,11 @@ struct Pausas {
     static let aparicionNota: TimeInterval = 0.5
 }
 
+struct Velocidad {
+    static let aciertosParaIncrementarVelocidad = 3
+    static let decrementoTiempoRecorrerPantalla: Double = -2.0
+}
+
 struct EstilosDefault {
     static let notas = EstiloNota(relleno: Colores.noteFill, trazo: Colores.noteStroke, anchoLinea: 1.0)
 }

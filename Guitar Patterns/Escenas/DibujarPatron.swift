@@ -48,7 +48,7 @@ class DibujarPatron: SKScene {
                 if shapeNota.posicionEnMastil == pos {
                     shapeNota.setSelected(true)
                     let tonica = self.patron.getPosTonica()
-                    if let intervalo = tonica.intervaloHasta(posicion: pos) {
+                    if let intervalo = tonica.intervaloHasta(posicion: pos, intervalica: self.patron.intervalica) {
                         shapeNota.setTextShapeNote(intervalo.rawValue)
                     }
                 }

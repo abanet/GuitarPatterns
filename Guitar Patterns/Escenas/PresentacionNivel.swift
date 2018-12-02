@@ -10,9 +10,11 @@ import SpriteKit
 
 class PresentacionNivel: SKScene {
     let level: Int
+    let patron: Patron
     
-    init(size: CGSize, level: Int) {
+    init(size: CGSize, level: Int, patron: Patron) {
         self.level = level
+        self.patron = patron
         super.init(size: size)
     }
     
@@ -21,6 +23,7 @@ class PresentacionNivel: SKScene {
     }
     
     override func didMove(to view: SKView) {
+        view.backgroundColor = .gray
         let titulo = "Nivel \(level)"
         let descripcion = "¡ Completa los intervalos en orden de aparición antes de que se autodestruyan !"
         addTitulo(titulo)
@@ -57,13 +60,17 @@ class PresentacionNivel: SKScene {
     }
     
     func irAJuego() {
+        guard let vista = self.scene?.view else {
+            return
+        }
         let wait = SKAction.wait(forDuration: 2.0)
         let nivel: Nivel = Nivel.getNivel(level)
         let irJuegoPatron = SKAction.run {
-            let scene = JuegoPatron(size: self.size, nivel: nivel)
+            let escena = JuegoPatron(size: self.size, nivel: nivel, patron: self.patron)
+            vista.ignoresSiblingOrder = true
             let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-            self.view?.presentScene(scene, transition: reveal)
-            
+            // https://stackoverflow.com/questions/35713804/in-spritekit-presentscene-transition-wont-work-however-presentscene-does
+            vista.presentScene(escena)//, transition: reveal)
         }
         self.run(SKAction.sequence([wait, irJuegoPatron]))
     }
